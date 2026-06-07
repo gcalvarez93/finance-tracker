@@ -2,6 +2,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'features/auth/presentation/pages/login_page.dart';
+import 'features/auth/presentation/providers/auth_provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -22,11 +24,30 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Finance Tracker'),
-        ),
-      ),
+      home: const AuthGate(),
     );
+  }
+}
+
+class AuthGate extends ConsumerWidget {
+  const AuthGate({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider);
+
+    return switch (authState) {
+      AuthInitial() => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      AuthLoading() => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      AuthAuthenticated() => const Scaffold(
+        body: Center(child: Text('¡Bienvenido!')),
+      ),
+      AuthUnauthenticated() => const LoginPage(),
+      AuthError() => const LoginPage(),
+    };
   }
 }
