@@ -125,7 +125,7 @@ abstract class AppLocalizations {
   /// Navegación - Presupuestos
   ///
   /// In es, this message translates to:
-  /// **'Presupuestos'**
+  /// **'Presupuesto'**
   String get navBudgets;
 
   /// Navegación - Perfil
@@ -463,6 +463,78 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Sí, todos los datos se almacenan de forma segura en Firebase con autenticación.'**
   String get faq4Answer;
+
+  /// Categorías
+  ///
+  /// In es, this message translates to:
+  /// **'Categorías'**
+  String get categories;
+
+  /// Añadir categoría
+  ///
+  /// In es, this message translates to:
+  /// **'Añadir categoría'**
+  String get addCategory;
+
+  /// Campo nombre categoría
+  ///
+  /// In es, this message translates to:
+  /// **'Nombre de la categoría'**
+  String get categoryName;
+
+  /// Campo color categoría
+  ///
+  /// In es, this message translates to:
+  /// **'Color'**
+  String get categoryColor;
+
+  /// Campo icono categoría
+  ///
+  /// In es, this message translates to:
+  /// **'Icono'**
+  String get categoryIcon;
+
+  /// Sin categorías
+  ///
+  /// In es, this message translates to:
+  /// **'No hay categorías aún'**
+  String get noCategories;
+
+  /// Categoría eliminada
+  ///
+  /// In es, this message translates to:
+  /// **'Categoría eliminada'**
+  String get categoryDeleted;
+
+  /// Categoría creada
+  ///
+  /// In es, this message translates to:
+  /// **'Categoría creada correctamente'**
+  String get categoryCreated;
+
+  /// Campo categoría
+  ///
+  /// In es, this message translates to:
+  /// **'Categoría'**
+  String get category;
+
+  /// Placeholder selector categoría
+  ///
+  /// In es, this message translates to:
+  /// **'Selecciona una categoría'**
+  String get selectCategory;
+
+  /// Editar categoría
+  ///
+  /// In es, this message translates to:
+  /// **'Editar categoría'**
+  String get editCategory;
+
+  /// Categoría actualizada
+  ///
+  /// In es, this message translates to:
+  /// **'Categoría actualizada correctamente'**
+  String get categoryUpdated;
 }
 
 class _AppLocalizationsDelegate

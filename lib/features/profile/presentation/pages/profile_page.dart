@@ -30,7 +30,7 @@ class ProfilePage extends ConsumerWidget {
           children: [
             CircleAvatar(
               radius: 50,
-              backgroundColor: Colors.green.shade100,
+              backgroundColor: Colors.blue.shade100,
               backgroundImage:
               user?.photoUrl != null ? NetworkImage(user!.photoUrl!) : null,
               child: user?.photoUrl == null
@@ -39,7 +39,7 @@ class ProfilePage extends ConsumerWidget {
                 style: const TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green,
+                  color: Colors.white,
                 ),
               )
                   : null,
@@ -135,7 +135,7 @@ class _ProfileOption extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         elevation: 1,
         child: ListTile(
-          leading: Icon(icon, color: Colors.green),
+          leading: Icon(icon, color: Colors.blueAccent),
           title: Text(title),
           trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
           onTap: onTap,

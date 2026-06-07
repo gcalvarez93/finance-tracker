@@ -21,7 +21,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get navCategories => 'Categorías';
 
   @override
-  String get navBudgets => 'Presupuestos';
+  String get navBudgets => 'Presupuesto';
 
   @override
   String get navProfile => 'Perfil';
@@ -200,4 +200,40 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get faq4Answer =>
       'Sí, todos los datos se almacenan de forma segura en Firebase con autenticación.';
+
+  @override
+  String get categories => 'Categorías';
+
+  @override
+  String get addCategory => 'Añadir categoría';
+
+  @override
+  String get categoryName => 'Nombre de la categoría';
+
+  @override
+  String get categoryColor => 'Color';
+
+  @override
+  String get categoryIcon => 'Icono';
+
+  @override
+  String get noCategories => 'No hay categorías aún';
+
+  @override
+  String get categoryDeleted => 'Categoría eliminada';
+
+  @override
+  String get categoryCreated => 'Categoría creada correctamente';
+
+  @override
+  String get category => 'Categoría';
+
+  @override
+  String get selectCategory => 'Selecciona una categoría';
+
+  @override
+  String get editCategory => 'Editar categoría';
+
+  @override
+  String get categoryUpdated => 'Categoría actualizada correctamente';
 }

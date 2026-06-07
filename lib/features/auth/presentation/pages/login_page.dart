@@ -59,7 +59,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               children: [
                 const SizedBox(height: 60),
                 const Icon(Icons.account_balance_wallet,
-                    size: 80, color: Colors.green),
+                    size: 80, color: Colors.blueAccent),
                 const SizedBox(height: 24),
                 Text(
                   l10n.appName,
@@ -102,7 +102,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ElevatedButton(
                   onPressed: isLoading ? null : _login,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.blueAccent,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(

@@ -94,7 +94,7 @@ class _LanguageTile extends StatelessWidget {
         child: ListTile(
           leading: Text(flag, style: const TextStyle(fontSize: 28)),
           title: Text(language, style: const TextStyle(fontWeight: FontWeight.w600)),
-          trailing: isSelected ? const Icon(Icons.check_circle, color: Colors.green) : null,
+          trailing: isSelected ? const Icon(Icons.check_circle, color: Colors.blueAccent) : null,
           onTap: onTap,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),

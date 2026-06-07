@@ -107,7 +107,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ElevatedButton(
                   onPressed: isLoading ? null : _register,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.blueAccent,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(

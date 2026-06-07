@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../categories/domain/entities/category_entity.dart';
+import '../../../categories/presentation/providers/category_provider.dart';
 import '../providers/transaction_provider.dart';
 
 class AddTransactionPage extends ConsumerStatefulWidget {
@@ -17,6 +19,7 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
   final _formKey = GlobalKey<FormState>();
   String _type = 'expense';
   DateTime _date = DateTime.now();
+  CategoryEntity? _selectedCategory;
 
   @override
   void dispose() {
@@ -40,7 +43,7 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
     await ref.read(transactionProvider.notifier).createTransaction(
       amount: double.parse(_amountController.text.replaceAll(',', '.')),
       type: _type,
-      categoryId: 'general',
+      categoryId: _selectedCategory?.id ?? 'general',
       description: _descriptionController.text.trim(),
       date: _date,
     );
@@ -50,6 +53,8 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final categoryState = ref.watch(categoryProvider);
+    final categories = categoryState is CategoryLoaded ? categoryState.categories : <CategoryEntity>[];
 
     return Scaffold(
       appBar: AppBar(
@@ -69,6 +74,7 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // Tipo ingreso/gasto
                 Row(
                   children: [
                     Expanded(
@@ -129,6 +135,8 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
                   ],
                 ),
                 const SizedBox(height: 24),
+
+                // Importe
                 TextFormField(
                   controller: _amountController,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -157,6 +165,37 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
                   },
                 ),
                 const SizedBox(height: 16),
+
+                // Categoría dropdown
+                DropdownButtonFormField<CategoryEntity>(
+                  value: _selectedCategory,
+                  hint: Text(l10n.selectCategory),
+                  decoration: InputDecoration(
+                    labelText: l10n.category,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(color: Colors.green),
+                    ),
+                    prefixIcon: const Icon(Icons.category_outlined),
+                  ),
+                  items: categories.map((cat) {
+                    return DropdownMenuItem(
+                      value: cat,
+                      child: Row(
+                        children: [
+                          Text(cat.icon, style: const TextStyle(fontSize: 20)),
+                          const SizedBox(width: 8),
+                          Text(cat.name),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) => setState(() => _selectedCategory = value),
+                ),
+                const SizedBox(height: 16),
+
+                // Descripción
                 TextFormField(
                   controller: _descriptionController,
                   decoration: InputDecoration(
@@ -174,6 +213,8 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
                   },
                 ),
                 const SizedBox(height: 16),
+
+                // Fecha
                 GestureDetector(
                   onTap: _selectDate,
                   child: Container(
@@ -195,6 +236,8 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
                   ),
                 ),
                 const SizedBox(height: 32),
+
+                // Botón guardar
                 ElevatedButton(
                   onPressed: _save,
                   style: ElevatedButton.styleFrom(

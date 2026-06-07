@@ -5,6 +5,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../transactions/presentation/pages/add_transaction_page.dart';
 import '../../../transactions/presentation/providers/transaction_provider.dart';
+import '../pages/home_page.dart';
 
 class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
@@ -50,9 +51,12 @@ class DashboardPage extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    CircleAvatar(
-                      backgroundColor: Colors.green.shade100,
-                      child: const Icon(Icons.person, color: Colors.green),
+                    GestureDetector(
+                      onTap: () => ref.read(homeIndexProvider.notifier).state = 4,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.blue.shade100,
+                        child: const Icon(Icons.person, color: Colors.blueAccent),
+                      ),
                     ),
                   ],
                 ),
@@ -66,7 +70,7 @@ class DashboardPage extends ConsumerWidget {
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [Colors.green.shade600, Colors.green.shade400],
+                            colors: [Colors.blue.shade600, Colors.blue.shade400],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
@@ -158,7 +162,7 @@ class DashboardPage extends ConsumerWidget {
           context,
           MaterialPageRoute(builder: (_) => const AddTransactionPage()),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blueAccent,
         icon: const Icon(Icons.add, color: Colors.white),
         label: Text(l10n.addTransaction, style: const TextStyle(color: Colors.white)),
       ),
@@ -191,7 +195,8 @@ class _SummaryChip extends StatelessWidget {
             Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
             Text(
               '${amount.toStringAsFixed(2)} €',
-              style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -238,7 +243,8 @@ class _TransactionTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(transaction.description, style: const TextStyle(fontWeight: FontWeight.w600)),
+                Text(transaction.description,
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
                 Text(
                   '${transaction.date.day}/${transaction.date.month}/${transaction.date.year}',
                   style: TextStyle(color: Colors.grey.shade500, fontSize: 12),

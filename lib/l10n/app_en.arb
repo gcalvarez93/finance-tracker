@@ -1,13 +1,11 @@
 {
   "@@locale": "en",
-
   "appName": "Finance Tracker",
   "navHome": "Home",
   "navTransactions": "Transactions",
   "navCategories": "Categories",
   "navBudgets": "Budgets",
   "navProfile": "Profile",
-
   "loginTitle": "Sign in to continue",
   "loginEmail": "Email",
   "loginPassword": "Password",
@@ -15,16 +13,13 @@
   "loginWithGoogle": "Continue with Google",
   "loginNoAccount": "Don't have an account?",
   "loginRegister": "Register",
-
   "registerTitle": "Create account",
   "registerName": "Name",
   "registerButton": "Register",
-
   "validationRequired": "This field is required",
   "validationEmail": "Invalid email",
   "validationPasswordLength": "Minimum 6 characters",
   "validationInvalidAmount": "Invalid amount",
-
   "balance": "Total balance",
   "income": "Income",
   "expense": "Expenses",
@@ -34,24 +29,19 @@
   "noTransactions": "No transactions yet",
   "latestTransactions": "Latest transactions",
   "financialSummary": "Your financial summary",
-
   "greeting": "Hello, {name} 👋",
-
   "export": "Export",
   "exportPdf": "Export PDF",
   "exportExcel": "Export Excel",
   "scanReceipt": "Scan receipt",
   "logout": "Sign out",
-
   "editProfile": "Edit profile",
   "changePhoto": "Change photo",
   "saveChanges": "Save changes",
   "profileUpdated": "Profile updated successfully",
-
   "notifications": "Notifications",
   "language": "Language",
   "help": "Help",
-
   "notificationsGeneral": "General notifications",
   "notificationsGeneralSubtitle": "Receive general app updates",
   "notificationsTransactions": "New transactions",
@@ -60,7 +50,6 @@
   "notificationsBudgetsSubtitle": "Alert when you approach your budget limit",
   "notificationsReports": "Monthly reports",
   "notificationsReportsSubtitle": "Receive a monthly summary of your finances",
-
   "contact": "Contact",
   "version": "Version",
   "faq": "Frequently asked questions",
@@ -71,6 +60,23 @@
   "faq3Question": "How do I scan a receipt?",
   "faq3Answer": "Tap the camera button when adding a transaction to scan automatically.",
   "faq4Question": "Is my data secure?",
-  "faq4Answer": "Yes, all data is stored securely in Firebase with authentication."
+  "faq4Answer": "Yes, all data is stored securely in Firebase with authentication.",
+  "categories": "Categories",
+  "addCategory": "Add category",
+  "categoryName": "Category name",
+  "categoryColor": "Color",
+  "categoryIcon": "Icon",
+  "noCategories": "No categories yet",
+  "categoryDeleted": "Category deleted",
+  "categoryCreated": "Category created successfully",
+  "category": "Category",
+  "@category": {
+    "description": "Category Field"
+  },
+  "selectCategory": "Select Category",
+  "@selectCategory": {
+    "description": "Select Category Placeholder"
+  },
+  "editCategory": "Edit category",
+  "categoryUpdated": "Category updated successfully"
 }
-

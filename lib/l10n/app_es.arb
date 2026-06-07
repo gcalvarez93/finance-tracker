@@ -1,191 +1,300 @@
 {
   "@@locale": "es",
-
   "appName": "Finance Tracker",
-  "@appName": {"description": "Nombre de la app"},
-
+  "@appName": {
+    "description": "Nombre de la app"
+  },
   "navHome": "Inicio",
-  "@navHome": {"description": "Navegación - Inicio"},
-
+  "@navHome": {
+    "description": "Navegación - Inicio"
+  },
   "navTransactions": "Movimientos",
-  "@navTransactions": {"description": "Navegación - Movimientos"},
-
+  "@navTransactions": {
+    "description": "Navegación - Movimientos"
+  },
   "navCategories": "Categorías",
-  "@navCategories": {"description": "Navegación - Categorías"},
-
-  "navBudgets": "Presupuestos",
-  "@navBudgets": {"description": "Navegación - Presupuestos"},
-
+  "@navCategories": {
+    "description": "Navegación - Categorías"
+  },
+  "navBudgets": "Presupuesto",
+  "@navBudgets": {
+    "description": "Navegación - Presupuestos"
+  },
   "navProfile": "Perfil",
-  "@navProfile": {"description": "Navegación - Perfil"},
-
+  "@navProfile": {
+    "description": "Navegación - Perfil"
+  },
   "loginTitle": "Inicia sesión para continuar",
-  "@loginTitle": {"description": "Título de la pantalla de login"},
-
+  "@loginTitle": {
+    "description": "Título de la pantalla de login"
+  },
   "loginEmail": "Email",
-  "@loginEmail": {"description": "Campo email"},
-
+  "@loginEmail": {
+    "description": "Campo email"
+  },
   "loginPassword": "Contraseña",
-  "@loginPassword": {"description": "Campo contraseña"},
-
+  "@loginPassword": {
+    "description": "Campo contraseña"
+  },
   "loginButton": "Iniciar sesión",
-  "@loginButton": {"description": "Botón de login"},
-
+  "@loginButton": {
+    "description": "Botón de login"
+  },
   "loginWithGoogle": "Continuar con Google",
-  "@loginWithGoogle": {"description": "Botón de Google"},
-
+  "@loginWithGoogle": {
+    "description": "Botón de Google"
+  },
   "loginNoAccount": "¿No tienes cuenta?",
-  "@loginNoAccount": {"description": "Texto sin cuenta"},
-
+  "@loginNoAccount": {
+    "description": "Texto sin cuenta"
+  },
   "loginRegister": "Regístrate",
-  "@loginRegister": {"description": "Link de registro"},
-
+  "@loginRegister": {
+    "description": "Link de registro"
+  },
   "registerTitle": "Crear cuenta",
-  "@registerTitle": {"description": "Título de registro"},
-
+  "@registerTitle": {
+    "description": "Título de registro"
+  },
   "registerName": "Nombre",
-  "@registerName": {"description": "Campo nombre"},
-
+  "@registerName": {
+    "description": "Campo nombre"
+  },
   "registerButton": "Registrarse",
-  "@registerButton": {"description": "Botón de registro"},
-
+  "@registerButton": {
+    "description": "Botón de registro"
+  },
   "validationRequired": "Este campo es obligatorio",
-  "@validationRequired": {"description": "Validación campo obligatorio"},
-
+  "@validationRequired": {
+    "description": "Validación campo obligatorio"
+  },
   "validationEmail": "Email no válido",
-  "@validationEmail": {"description": "Validación email"},
-
+  "@validationEmail": {
+    "description": "Validación email"
+  },
   "validationPasswordLength": "Mínimo 6 caracteres",
-  "@validationPasswordLength": {"description": "Validación contraseña"},
-
+  "@validationPasswordLength": {
+    "description": "Validación contraseña"
+  },
   "validationInvalidAmount": "Importe no válido",
-  "@validationInvalidAmount": {"description": "Validación importe"},
-
+  "@validationInvalidAmount": {
+    "description": "Validación importe"
+  },
   "balance": "Balance total",
-  "@balance": {"description": "Balance total"},
-
+  "@balance": {
+    "description": "Balance total"
+  },
   "income": "Ingresos",
-  "@income": {"description": "Ingresos"},
-
+  "@income": {
+    "description": "Ingresos"
+  },
   "expense": "Gastos",
-  "@expense": {"description": "Gastos"},
-
+  "@expense": {
+    "description": "Gastos"
+  },
   "addTransaction": "Añadir movimiento",
-  "@addTransaction": {"description": "Añadir transacción"},
-
+  "@addTransaction": {
+    "description": "Añadir transacción"
+  },
   "description": "Descripción",
-  "@description": {"description": "Campo descripción"},
-
+  "@description": {
+    "description": "Campo descripción"
+  },
   "save": "Guardar",
-  "@save": {"description": "Botón guardar"},
-
+  "@save": {
+    "description": "Botón guardar"
+  },
   "noTransactions": "No hay movimientos aún",
-  "@noTransactions": {"description": "Sin transacciones"},
-
+  "@noTransactions": {
+    "description": "Sin transacciones"
+  },
   "latestTransactions": "Últimos movimientos",
-  "@latestTransactions": {"description": "Últimos movimientos"},
-
+  "@latestTransactions": {
+    "description": "Últimos movimientos"
+  },
   "financialSummary": "Tu resumen financiero",
-  "@financialSummary": {"description": "Resumen financiero"},
-
+  "@financialSummary": {
+    "description": "Resumen financiero"
+  },
   "greeting": "Hola, {name} 👋",
   "@greeting": {
     "description": "Saludo con nombre",
     "placeholders": {
-      "name": {"type": "String"}
+      "name": {
+        "type": "String"
+      }
     }
   },
-
   "export": "Exportar",
-  "@export": {"description": "Exportar"},
-
+  "@export": {
+    "description": "Exportar"
+  },
   "exportPdf": "Exportar PDF",
-  "@exportPdf": {"description": "Exportar PDF"},
-
+  "@exportPdf": {
+    "description": "Exportar PDF"
+  },
   "exportExcel": "Exportar Excel",
-  "@exportExcel": {"description": "Exportar Excel"},
-
+  "@exportExcel": {
+    "description": "Exportar Excel"
+  },
   "scanReceipt": "Escanear factura",
-  "@scanReceipt": {"description": "Escanear factura"},
-
+  "@scanReceipt": {
+    "description": "Escanear factura"
+  },
   "logout": "Cerrar sesión",
-  "@logout": {"description": "Cerrar sesión"},
-
+  "@logout": {
+    "description": "Cerrar sesión"
+  },
   "editProfile": "Editar perfil",
-  "@editProfile": {"description": "Editar perfil"},
-
+  "@editProfile": {
+    "description": "Editar perfil"
+  },
   "changePhoto": "Cambiar foto",
-  "@changePhoto": {"description": "Cambiar foto"},
-
+  "@changePhoto": {
+    "description": "Cambiar foto"
+  },
   "saveChanges": "Guardar cambios",
-  "@saveChanges": {"description": "Guardar cambios"},
-
+  "@saveChanges": {
+    "description": "Guardar cambios"
+  },
   "profileUpdated": "Perfil actualizado correctamente",
-  "@profileUpdated": {"description": "Perfil actualizado"},
-
+  "@profileUpdated": {
+    "description": "Perfil actualizado"
+  },
   "notifications": "Notificaciones",
-  "@notifications": {"description": "Notificaciones"},
-
+  "@notifications": {
+    "description": "Notificaciones"
+  },
   "language": "Idioma",
-  "@language": {"description": "Idioma"},
-
+  "@language": {
+    "description": "Idioma"
+  },
   "help": "Ayuda",
-  "@help": {"description": "Ayuda"},
-
+  "@help": {
+    "description": "Ayuda"
+  },
   "notificationsGeneral": "Notificaciones generales",
-  "@notificationsGeneral": {"description": "Notificaciones generales"},
-
+  "@notificationsGeneral": {
+    "description": "Notificaciones generales"
+  },
   "notificationsGeneralSubtitle": "Recibe actualizaciones generales de la app",
-  "@notificationsGeneralSubtitle": {"description": "Subtítulo notificaciones generales"},
-
+  "@notificationsGeneralSubtitle": {
+    "description": "Subtítulo notificaciones generales"
+  },
   "notificationsTransactions": "Nuevos movimientos",
-  "@notificationsTransactions": {"description": "Notificaciones de movimientos"},
-
+  "@notificationsTransactions": {
+    "description": "Notificaciones de movimientos"
+  },
   "notificationsTransactionsSubtitle": "Recibe alertas cuando se añada un movimiento",
-  "@notificationsTransactionsSubtitle": {"description": "Subtítulo notificaciones movimientos"},
-
+  "@notificationsTransactionsSubtitle": {
+    "description": "Subtítulo notificaciones movimientos"
+  },
   "notificationsBudgets": "Alertas de presupuesto",
-  "@notificationsBudgets": {"description": "Notificaciones de presupuesto"},
-
+  "@notificationsBudgets": {
+    "description": "Notificaciones de presupuesto"
+  },
   "notificationsBudgetsSubtitle": "Aviso cuando te acerques al límite de tu presupuesto",
-  "@notificationsBudgetsSubtitle": {"description": "Subtítulo notificaciones presupuesto"},
-
+  "@notificationsBudgetsSubtitle": {
+    "description": "Subtítulo notificaciones presupuesto"
+  },
   "notificationsReports": "Informes mensuales",
-  "@notificationsReports": {"description": "Notificaciones de informes"},
-
+  "@notificationsReports": {
+    "description": "Notificaciones de informes"
+  },
   "notificationsReportsSubtitle": "Recibe un resumen mensual de tus finanzas",
-  "@notificationsReportsSubtitle": {"description": "Subtítulo notificaciones informes"},
-
+  "@notificationsReportsSubtitle": {
+    "description": "Subtítulo notificaciones informes"
+  },
   "contact": "Contacto",
-  "@contact": {"description": "Contacto"},
-
+  "@contact": {
+    "description": "Contacto"
+  },
   "version": "Versión",
-  "@version": {"description": "Versión"},
-
+  "@version": {
+    "description": "Versión"
+  },
   "faq": "Preguntas frecuentes",
-  "@faq": {"description": "Preguntas frecuentes"},
-
+  "@faq": {
+    "description": "Preguntas frecuentes"
+  },
   "faq1Question": "¿Cómo añado un movimiento?",
-  "@faq1Question": {"description": "FAQ 1 pregunta"},
-
+  "@faq1Question": {
+    "description": "FAQ 1 pregunta"
+  },
   "faq1Answer": "Pulsa el botón + en la pantalla principal o en la pestaña de Movimientos.",
-  "@faq1Answer": {"description": "FAQ 1 respuesta"},
-
+  "@faq1Answer": {
+    "description": "FAQ 1 respuesta"
+  },
   "faq2Question": "¿Cómo exporto mis datos?",
-  "@faq2Question": {"description": "FAQ 2 pregunta"},
-
+  "@faq2Question": {
+    "description": "FAQ 2 pregunta"
+  },
   "faq2Answer": "Ve a la pestaña de Movimientos y pulsa el icono de exportar en la parte superior.",
-  "@faq2Answer": {"description": "FAQ 2 respuesta"},
-
+  "@faq2Answer": {
+    "description": "FAQ 2 respuesta"
+  },
   "faq3Question": "¿Cómo escaneo una factura?",
-  "@faq3Question": {"description": "FAQ 3 pregunta"},
-
+  "@faq3Question": {
+    "description": "FAQ 3 pregunta"
+  },
   "faq3Answer": "Pulsa el botón de cámara al añadir un movimiento para escanear automáticamente.",
-  "@faq3Answer": {"description": "FAQ 3 respuesta"},
-
+  "@faq3Answer": {
+    "description": "FAQ 3 respuesta"
+  },
   "faq4Question": "¿Mis datos están seguros?",
-  "@faq4Question": {"description": "FAQ 4 pregunta"},
-
+  "@faq4Question": {
+    "description": "FAQ 4 pregunta"
+  },
   "faq4Answer": "Sí, todos los datos se almacenan de forma segura en Firebase con autenticación.",
-  "@faq4Answer": {"description": "FAQ 4 respuesta"}
+  "@faq4Answer": {
+    "description": "FAQ 4 respuesta"
+  },
+  "categories": "Categorías",
+  "@categories": {
+    "description": "Categorías"
+  },
+  "addCategory": "Añadir categoría",
+  "@addCategory": {
+    "description": "Añadir categoría"
+  },
+  "categoryName": "Nombre de la categoría",
+  "@categoryName": {
+    "description": "Campo nombre categoría"
+  },
+  "categoryColor": "Color",
+  "@categoryColor": {
+    "description": "Campo color categoría"
+  },
+  "categoryIcon": "Icono",
+  "@categoryIcon": {
+    "description": "Campo icono categoría"
+  },
+  "noCategories": "No hay categorías aún",
+  "@noCategories": {
+    "description": "Sin categorías"
+  },
+  "categoryDeleted": "Categoría eliminada",
+  "@categoryDeleted": {
+    "description": "Categoría eliminada"
+  },
+  "categoryCreated": "Categoría creada correctamente",
+  "@categoryCreated": {
+    "description": "Categoría creada"
+  },
+  "category": "Categoría",
+  "@category": {
+    "description": "Campo categoría"
+  },
+  "selectCategory": "Selecciona una categoría",
+  "@selectCategory": {
+    "description": "Placeholder selector categoría"
+  },
+  "editCategory": "Editar categoría",
+  "@editCategory": {
+    "description": "Editar categoría"
+  },
+  "categoryUpdated": "Categoría actualizada correctamente",
+  "@categoryUpdated": {
+    "description": "Categoría actualizada"
+  }
 }

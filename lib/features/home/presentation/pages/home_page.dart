@@ -1,5 +1,6 @@
 // Path: lib/features/home/presentation/pages/home_page.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../transactions/presentation/pages/transactions_page.dart';
 import '../../../categories/presentation/pages/categories_page.dart';
@@ -7,33 +8,30 @@ import '../../../budgets/presentation/pages/budgets_page.dart';
 import '../../../profile/presentation/pages/profile_page.dart';
 import '../widgets/dashboard_page.dart';
 
-class HomePage extends StatefulWidget {
+final homeIndexProvider = StateProvider<int>((ref) => 0);
+
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
-
-  final List<Widget> _pages = const [
-    DashboardPage(),
-    TransactionsPage(),
-    CategoriesPage(),
-    BudgetsPage(),
-    ProfilePage(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final currentIndex = ref.watch(homeIndexProvider);
+
+    final List<Widget> pages = const [
+      DashboardPage(),
+      TransactionsPage(),
+      CategoriesPage(),
+      BudgetsPage(),
+      ProfilePage(),
+    ];
 
     return Scaffold(
-      body: _pages[_currentIndex],
+      body: pages[currentIndex],
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) => setState(() => _currentIndex = index),
+        selectedIndex: currentIndex,
+        onDestinationSelected: (index) =>
+        ref.read(homeIndexProvider.notifier).state = index,
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.dashboard_outlined),

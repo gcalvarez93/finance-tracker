@@ -113,7 +113,7 @@ class _NotificationTile extends StatelessWidget {
                   ],
                 ),
               ),
-              Switch(value: value, onChanged: onChanged, activeColor: Colors.green),
+              Switch(value: value, onChanged: onChanged, activeColor: Colors.blueAccent),
             ],
           ),
         ),

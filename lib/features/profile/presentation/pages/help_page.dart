@@ -92,7 +92,7 @@ class _HelpSection extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              Icon(icon, color: Colors.green),
+              Icon(icon, color: Colors.blueAccent),
               const SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

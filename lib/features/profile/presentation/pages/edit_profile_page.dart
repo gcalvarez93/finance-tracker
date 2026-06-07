@@ -63,7 +63,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppLocalizations.of(context)!.profileUpdated),
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.blueAccent,
           ),
         );
         Navigator.pop(context);
@@ -102,7 +102,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
               children: [
                 const CircleAvatar(
                   radius: 50,
-                  backgroundColor: Colors.green,
+                  backgroundColor: Colors.blueAccent,
                   child: Icon(Icons.person, size: 50, color: Colors.white),
                 ),
                 const SizedBox(height: 8),
@@ -126,7 +126,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _save,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.blueAccent,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(

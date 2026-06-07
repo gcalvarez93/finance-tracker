@@ -127,7 +127,7 @@ class TransactionsPage extends ConsumerWidget {
           context,
           MaterialPageRoute(builder: (_) => const AddTransactionPage()),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blueAccent,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );

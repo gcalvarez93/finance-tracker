@@ -199,4 +199,40 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get faq4Answer =>
       'Yes, all data is stored securely in Firebase with authentication.';
+
+  @override
+  String get categories => 'Categories';
+
+  @override
+  String get addCategory => 'Add category';
+
+  @override
+  String get categoryName => 'Category name';
+
+  @override
+  String get categoryColor => 'Color';
+
+  @override
+  String get categoryIcon => 'Icon';
+
+  @override
+  String get noCategories => 'No categories yet';
+
+  @override
+  String get categoryDeleted => 'Category deleted';
+
+  @override
+  String get categoryCreated => 'Category created successfully';
+
+  @override
+  String get category => 'Category';
+
+  @override
+  String get selectCategory => 'Select Category';
+
+  @override
+  String get editCategory => 'Edit category';
+
+  @override
+  String get categoryUpdated => 'Category updated successfully';
 }
