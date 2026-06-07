@@ -297,6 +297,50 @@
   "@categoryUpdated": {
     "description": "Categoría actualizada"
   },
+  "budgets": "Presupuestos",
+  "@budgets": {
+    "description": "Presupuestos"
+  },
+  "addBudget": "Añadir presupuesto",
+  "@addBudget": {
+    "description": "Añadir presupuesto"
+  },
+  "noBudgets": "No hay presupuestos aún",
+  "@noBudgets": {
+    "description": "Sin presupuestos"
+  },
+  "budgetLimit": "Límite",
+  "@budgetLimit": {
+    "description": "Límite presupuesto"
+  },
+  "budgetSpent": "Gastado",
+  "@budgetSpent": {
+    "description": "Gastado presupuesto"
+  },
+  "budgetRemaining": "Restante",
+  "@budgetRemaining": {
+    "description": "Restante presupuesto"
+  },
+  "budgetDeleted": "Presupuesto eliminado",
+  "@budgetDeleted": {
+    "description": "Presupuesto eliminado"
+  },
+  "budgetCreated": "Presupuesto creado correctamente",
+  "@budgetCreated": {
+    "description": "Presupuesto creado"
+  },
+  "budgetOverLimit": "Límite superado",
+  "@budgetOverLimit": {
+    "description": "Límite superado"
+  },
+  "selectMonth": "Mes",
+  "@selectMonth": {
+    "description": "Selector mes"
+  },
+  "selectYear": "Año",
+  "@selectYear": {
+    "description": "Selector año"
+  },
   "exportSuccess": "Archivo exportado correctamente",
   "@exportSuccess": {
     "description": "Exportación exitosa"

@@ -238,6 +238,39 @@ class AppLocalizationsEs extends AppLocalizations {
   String get categoryUpdated => 'Categoría actualizada correctamente';
 
   @override
+  String get budgets => 'Presupuestos';
+
+  @override
+  String get addBudget => 'Añadir presupuesto';
+
+  @override
+  String get noBudgets => 'No hay presupuestos aún';
+
+  @override
+  String get budgetLimit => 'Límite';
+
+  @override
+  String get budgetSpent => 'Gastado';
+
+  @override
+  String get budgetRemaining => 'Restante';
+
+  @override
+  String get budgetDeleted => 'Presupuesto eliminado';
+
+  @override
+  String get budgetCreated => 'Presupuesto creado correctamente';
+
+  @override
+  String get budgetOverLimit => 'Límite superado';
+
+  @override
+  String get selectMonth => 'Mes';
+
+  @override
+  String get selectYear => 'Año';
+
+  @override
   String get exportSuccess => 'Archivo exportado correctamente';
 
   @override

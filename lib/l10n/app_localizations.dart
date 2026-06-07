@@ -536,6 +536,72 @@ abstract class AppLocalizations {
   /// **'Categoría actualizada correctamente'**
   String get categoryUpdated;
 
+  /// Presupuestos
+  ///
+  /// In es, this message translates to:
+  /// **'Presupuestos'**
+  String get budgets;
+
+  /// Añadir presupuesto
+  ///
+  /// In es, this message translates to:
+  /// **'Añadir presupuesto'**
+  String get addBudget;
+
+  /// Sin presupuestos
+  ///
+  /// In es, this message translates to:
+  /// **'No hay presupuestos aún'**
+  String get noBudgets;
+
+  /// Límite presupuesto
+  ///
+  /// In es, this message translates to:
+  /// **'Límite'**
+  String get budgetLimit;
+
+  /// Gastado presupuesto
+  ///
+  /// In es, this message translates to:
+  /// **'Gastado'**
+  String get budgetSpent;
+
+  /// Restante presupuesto
+  ///
+  /// In es, this message translates to:
+  /// **'Restante'**
+  String get budgetRemaining;
+
+  /// Presupuesto eliminado
+  ///
+  /// In es, this message translates to:
+  /// **'Presupuesto eliminado'**
+  String get budgetDeleted;
+
+  /// Presupuesto creado
+  ///
+  /// In es, this message translates to:
+  /// **'Presupuesto creado correctamente'**
+  String get budgetCreated;
+
+  /// Límite superado
+  ///
+  /// In es, this message translates to:
+  /// **'Límite superado'**
+  String get budgetOverLimit;
+
+  /// Selector mes
+  ///
+  /// In es, this message translates to:
+  /// **'Mes'**
+  String get selectMonth;
+
+  /// Selector año
+  ///
+  /// In es, this message translates to:
+  /// **'Año'**
+  String get selectYear;
+
   /// Exportación exitosa
   ///
   /// In es, this message translates to:
