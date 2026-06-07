@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../../transactions/presentation/pages/add_transaction_page.dart';
 import '../../../transactions/presentation/providers/transaction_provider.dart';
 
 class DashboardPage extends ConsumerWidget {
@@ -170,7 +171,10 @@ class DashboardPage extends ConsumerWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const AddTransactionPage()),
+        ),
         backgroundColor: Colors.green,
         icon: const Icon(Icons.add, color: Colors.white),
         label: Text(
