@@ -78,5 +78,13 @@
     "description": "Select Category Placeholder"
   },
   "editCategory": "Edit category",
-  "categoryUpdated": "Category updated successfully"
+  "categoryUpdated": "Category updated successfully",
+  "exportSuccess": "File exported successfully",
+  "exportError": "Error exporting file",
+  "exporting": "Exporting...",
+  "scanSuccess": "Receipt scanned successfully",
+  "scanError": "Error scanning receipt",
+  "scanning": "Scanning...",
+  "selectImage": "Select image",
+  "takePhoto": "Take photo"
 }

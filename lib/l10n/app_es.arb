@@ -296,5 +296,37 @@
   "categoryUpdated": "Categoría actualizada correctamente",
   "@categoryUpdated": {
     "description": "Categoría actualizada"
+  },
+  "exportSuccess": "Archivo exportado correctamente",
+  "@exportSuccess": {
+    "description": "Exportación exitosa"
+  },
+  "exportError": "Error al exportar el archivo",
+  "@exportError": {
+    "description": "Error exportación"
+  },
+  "exporting": "Exportando...",
+  "@exporting": {
+    "description": "Exportando"
+  },
+  "scanSuccess": "Factura escaneada correctamente",
+  "@scanSuccess": {
+    "description": "Escaneo exitoso"
+  },
+  "scanError": "Error al escanear la factura",
+  "@scanError": {
+    "description": "Error escaneo"
+  },
+  "scanning": "Escaneando...",
+  "@scanning": {
+    "description": "Escaneando"
+  },
+  "selectImage": "Seleccionar imagen",
+  "@selectImage": {
+    "description": "Seleccionar imagen"
+  },
+  "takePhoto": "Hacer foto",
+  "@takePhoto": {
+    "description": "Hacer foto"
   }
 }

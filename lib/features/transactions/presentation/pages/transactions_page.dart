@@ -1,15 +1,98 @@
 // Path: lib/features/transactions/presentation/pages/transactions_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:open_file/open_file.dart';
+import '../../../../core/network/dio_client.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../data/datasources/export_remote_datasource.dart';
 import '../providers/transaction_provider.dart';
 import 'add_transaction_page.dart';
 
-class TransactionsPage extends ConsumerWidget {
+class TransactionsPage extends ConsumerStatefulWidget {
   const TransactionsPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TransactionsPage> createState() => _TransactionsPageState();
+}
+
+class _TransactionsPageState extends ConsumerState<TransactionsPage> {
+  bool _isExporting = false;
+
+  Future<void> _export(String type) async {
+    setState(() => _isExporting = true);
+    final l10n = AppLocalizations.of(context)!;
+
+    try {
+      final datasource = ExportRemoteDatasource(ref.read(dioClientProvider));
+      final path = type == 'pdf'
+          ? await datasource.exportPdf()
+          : await datasource.exportExcel();
+
+      await OpenFile.open(path);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.exportSuccess),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.exportError),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      setState(() => _isExporting = false);
+    }
+  }
+
+  void _showExportOptions() {
+    final l10n = AppLocalizations.of(context)!;
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => Container(
+        padding: const EdgeInsets.all(24),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n.export,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 24),
+            ListTile(
+              leading: const Icon(Icons.picture_as_pdf, color: Colors.red),
+              title: Text(l10n.exportPdf),
+              onTap: () {
+                Navigator.pop(context);
+                _export('pdf');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.table_chart, color: Colors.green),
+              title: Text(l10n.exportExcel),
+              onTap: () {
+                Navigator.pop(context);
+                _export('excel');
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final transactionState = ref.watch(transactionProvider);
 
@@ -19,6 +102,22 @@ class TransactionsPage extends ConsumerWidget {
         title: Text(l10n.navTransactions),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          _isExporting
+              ? const Padding(
+            padding: EdgeInsets.all(16),
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+          )
+              : IconButton(
+            icon: const Icon(Icons.download_outlined),
+            tooltip: l10n.export,
+            onPressed: _showExportOptions,
+          ),
+        ],
       ),
       body: switch (transactionState) {
         TransactionLoading() => const Center(child: CircularProgressIndicator()),
@@ -97,8 +196,7 @@ class TransactionsPage extends ConsumerWidget {
                                 style: const TextStyle(fontWeight: FontWeight.w600)),
                             Text(
                               '${t.date.day}/${t.date.month}/${t.date.year}',
-                              style:
-                              TextStyle(color: Colors.grey.shade500, fontSize: 12),
+                              style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
                             ),
                           ],
                         ),
@@ -127,7 +225,7 @@ class TransactionsPage extends ConsumerWidget {
           context,
           MaterialPageRoute(builder: (_) => const AddTransactionPage()),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.green,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );

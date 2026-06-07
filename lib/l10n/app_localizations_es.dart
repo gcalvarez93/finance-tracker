@@ -236,4 +236,28 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get categoryUpdated => 'Categoría actualizada correctamente';
+
+  @override
+  String get exportSuccess => 'Archivo exportado correctamente';
+
+  @override
+  String get exportError => 'Error al exportar el archivo';
+
+  @override
+  String get exporting => 'Exportando...';
+
+  @override
+  String get scanSuccess => 'Factura escaneada correctamente';
+
+  @override
+  String get scanError => 'Error al escanear la factura';
+
+  @override
+  String get scanning => 'Escaneando...';
+
+  @override
+  String get selectImage => 'Seleccionar imagen';
+
+  @override
+  String get takePhoto => 'Hacer foto';
 }

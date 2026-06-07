@@ -12,8 +12,8 @@ class DioClient {
   DioClient() {
     _dio = Dio(BaseOptions(
       baseUrl: ApiConfig.baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 60),
       headers: {'Content-Type': 'application/json'},
     ));
 
@@ -42,4 +42,12 @@ class DioClient {
       _dio.put(path, data: data);
 
   Future<Response> delete(String path) => _dio.delete(path);
+
+  Future<void> download(String url, String savePath) async {
+    await _dio.download(
+      url,
+      savePath,
+      options: Options(responseType: ResponseType.bytes),
+    );
+  }
 }

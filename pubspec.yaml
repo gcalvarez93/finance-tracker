@@ -36,6 +36,9 @@ dependencies:
   json_annotation: ^4.9.0
   font_awesome_flutter: ^11.0.0
   package_info_plus: ^10.1.0
+  open_file: ^3.5.11
+  image_picker: ^1.2.2
+  path_provider: ^2.1.5
 
 dev_dependencies:
   analyzer: '>=6.0.0 <7.0.0'

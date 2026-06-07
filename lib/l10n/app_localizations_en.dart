@@ -235,4 +235,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get categoryUpdated => 'Category updated successfully';
+
+  @override
+  String get exportSuccess => 'File exported successfully';
+
+  @override
+  String get exportError => 'Error exporting file';
+
+  @override
+  String get exporting => 'Exporting...';
+
+  @override
+  String get scanSuccess => 'Receipt scanned successfully';
+
+  @override
+  String get scanError => 'Error scanning receipt';
+
+  @override
+  String get scanning => 'Scanning...';
+
+  @override
+  String get selectImage => 'Select image';
+
+  @override
+  String get takePhoto => 'Take photo';
 }

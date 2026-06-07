@@ -1,10 +1,14 @@
 // Path: lib/features/transactions/presentation/pages/add_transaction_page.dart
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../../../core/network/dio_client.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../categories/domain/entities/category_entity.dart';
 import '../../../categories/presentation/providers/category_provider.dart';
 import '../providers/transaction_provider.dart';
+import '../../data/datasources/ocr_remote_datasource.dart';
 
 class AddTransactionPage extends ConsumerStatefulWidget {
   const AddTransactionPage({super.key});
@@ -20,6 +24,7 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
   String _type = 'expense';
   DateTime _date = DateTime.now();
   CategoryEntity? _selectedCategory;
+  bool _isScanning = false;
 
   @override
   void dispose() {
@@ -38,6 +43,88 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
     if (picked != null) setState(() => _date = picked);
   }
 
+  Future<void> _scanReceipt(ImageSource source) async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: source);
+    if (picked == null) return;
+
+    setState(() => _isScanning = true);
+
+    try {
+      final datasource = OcrRemoteDatasource(ref.read(dioClientProvider));
+      final result = await datasource.scanReceipt(File(picked.path));
+
+      if (result.amount != null) {
+        _amountController.text = result.amount!.toStringAsFixed(2);
+      }
+      if (result.description != null) {
+        _descriptionController.text = result.description!;
+      }
+      if (result.date != null) {
+        setState(() => _date = result.date!);
+      }
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.scanSuccess),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.scanError),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      setState(() => _isScanning = false);
+    }
+  }
+
+  void _showScanOptions() {
+    final l10n = AppLocalizations.of(context)!;
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => Container(
+        padding: const EdgeInsets.all(24),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n.scanReceipt,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 24),
+            ListTile(
+              leading: const Icon(Icons.camera_alt, color: Colors.green),
+              title: Text(l10n.takePhoto),
+              onTap: () {
+                Navigator.pop(context);
+                _scanReceipt(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library, color: Colors.green),
+              title: Text(l10n.selectImage),
+              onTap: () {
+                Navigator.pop(context);
+                _scanReceipt(ImageSource.gallery);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     await ref.read(transactionProvider.notifier).createTransaction(
@@ -54,7 +141,8 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final categoryState = ref.watch(categoryProvider);
-    final categories = categoryState is CategoryLoaded ? categoryState.categories : <CategoryEntity>[];
+    final categories =
+    categoryState is CategoryLoaded ? categoryState.categories : <CategoryEntity>[];
 
     return Scaffold(
       appBar: AppBar(
@@ -65,6 +153,19 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
         title: Text(l10n.addTransaction),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: _isScanning
+                ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+                : const Icon(Icons.document_scanner_outlined),
+            tooltip: l10n.scanReceipt,
+            onPressed: _isScanning ? null : _showScanOptions,
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(

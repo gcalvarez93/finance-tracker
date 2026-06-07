@@ -535,6 +535,54 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Categoría actualizada correctamente'**
   String get categoryUpdated;
+
+  /// Exportación exitosa
+  ///
+  /// In es, this message translates to:
+  /// **'Archivo exportado correctamente'**
+  String get exportSuccess;
+
+  /// Error exportación
+  ///
+  /// In es, this message translates to:
+  /// **'Error al exportar el archivo'**
+  String get exportError;
+
+  /// Exportando
+  ///
+  /// In es, this message translates to:
+  /// **'Exportando...'**
+  String get exporting;
+
+  /// Escaneo exitoso
+  ///
+  /// In es, this message translates to:
+  /// **'Factura escaneada correctamente'**
+  String get scanSuccess;
+
+  /// Error escaneo
+  ///
+  /// In es, this message translates to:
+  /// **'Error al escanear la factura'**
+  String get scanError;
+
+  /// Escaneando
+  ///
+  /// In es, this message translates to:
+  /// **'Escaneando...'**
+  String get scanning;
+
+  /// Seleccionar imagen
+  ///
+  /// In es, this message translates to:
+  /// **'Seleccionar imagen'**
+  String get selectImage;
+
+  /// Hacer foto
+  ///
+  /// In es, this message translates to:
+  /// **'Hacer foto'**
+  String get takePhoto;
 }
 
 class _AppLocalizationsDelegate
