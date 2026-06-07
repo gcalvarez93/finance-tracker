@@ -24,7 +24,8 @@ class BudgetsPage extends ConsumerWidget {
     });
 
     if (budgetState is BudgetInitial) {
-      ref.read(budgetProvider.notifier).loadBudgets(monthKey);
+      Future.microtask(() =>
+          ref.read(budgetProvider.notifier).loadBudgets(monthKey));
     }
 
     final monthNames = [
@@ -238,7 +239,8 @@ class _AddBudgetSheetState extends ConsumerState<_AddBudgetSheet> {
     super.initState();
     _month = widget.selectedMonth.month;
     _year = widget.selectedMonth.year;
-    ref.read(categoryProvider.notifier).loadCategories();
+    Future.microtask(() =>
+        ref.read(categoryProvider.notifier).loadCategories());
   }
 
   @override
