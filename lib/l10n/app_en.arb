@@ -23,15 +23,54 @@
   "validationRequired": "This field is required",
   "validationEmail": "Invalid email",
   "validationPasswordLength": "Minimum 6 characters",
+  "validationInvalidAmount": "Invalid amount",
 
   "balance": "Total balance",
   "income": "Income",
   "expense": "Expenses",
   "addTransaction": "Add transaction",
+  "description": "Description",
+  "save": "Save",
+  "noTransactions": "No transactions yet",
+  "latestTransactions": "Latest transactions",
+  "financialSummary": "Your financial summary",
+
+  "greeting": "Hello, {name} 👋",
 
   "export": "Export",
   "exportPdf": "Export PDF",
   "exportExcel": "Export Excel",
   "scanReceipt": "Scan receipt",
-  "logout": "Sign out"
+  "logout": "Sign out",
+
+  "editProfile": "Edit profile",
+  "changePhoto": "Change photo",
+  "saveChanges": "Save changes",
+  "profileUpdated": "Profile updated successfully",
+
+  "notifications": "Notifications",
+  "language": "Language",
+  "help": "Help",
+
+  "notificationsGeneral": "General notifications",
+  "notificationsGeneralSubtitle": "Receive general app updates",
+  "notificationsTransactions": "New transactions",
+  "notificationsTransactionsSubtitle": "Receive alerts when a transaction is added",
+  "notificationsBudgets": "Budget alerts",
+  "notificationsBudgetsSubtitle": "Alert when you approach your budget limit",
+  "notificationsReports": "Monthly reports",
+  "notificationsReportsSubtitle": "Receive a monthly summary of your finances",
+
+  "contact": "Contact",
+  "version": "Version",
+  "faq": "Frequently asked questions",
+  "faq1Question": "How do I add a transaction?",
+  "faq1Answer": "Tap the + button on the main screen or in the Transactions tab.",
+  "faq2Question": "How do I export my data?",
+  "faq2Answer": "Go to the Transactions tab and tap the export icon at the top.",
+  "faq3Question": "How do I scan a receipt?",
+  "faq3Answer": "Tap the camera button when adding a transaction to scan automatically.",
+  "faq4Question": "Is my data secure?",
+  "faq4Answer": "Yes, all data is stored securely in Firebase with authentication."
 }
+

@@ -37,7 +37,6 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
-
     await ref.read(transactionProvider.notifier).createTransaction(
       amount: double.parse(_amountController.text.replaceAll(',', '.')),
       type: _type,
@@ -45,7 +44,6 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
       description: _descriptionController.text.trim(),
       date: _date,
     );
-
     if (mounted) Navigator.pop(context);
   }
 
@@ -71,7 +69,6 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Tipo ingreso/gasto
                 Row(
                   children: [
                     Expanded(
@@ -80,25 +77,19 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           decoration: BoxDecoration(
-                            color: _type == 'expense'
-                                ? Colors.red
-                                : Colors.grey.shade100,
+                            color: _type == 'expense' ? Colors.red : Colors.grey.shade100,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Icons.arrow_downward,
-                                  color: _type == 'expense'
-                                      ? Colors.white
-                                      : Colors.grey),
+                                  color: _type == 'expense' ? Colors.white : Colors.grey),
                               const SizedBox(width: 8),
                               Text(
                                 l10n.expense,
                                 style: TextStyle(
-                                  color: _type == 'expense'
-                                      ? Colors.white
-                                      : Colors.grey,
+                                  color: _type == 'expense' ? Colors.white : Colors.grey,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -114,25 +105,19 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           decoration: BoxDecoration(
-                            color: _type == 'income'
-                                ? Colors.green
-                                : Colors.grey.shade100,
+                            color: _type == 'income' ? Colors.green : Colors.grey.shade100,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Icons.arrow_upward,
-                                  color: _type == 'income'
-                                      ? Colors.white
-                                      : Colors.grey),
+                                  color: _type == 'income' ? Colors.white : Colors.grey),
                               const SizedBox(width: 8),
                               Text(
                                 l10n.income,
                                 style: TextStyle(
-                                  color: _type == 'income'
-                                      ? Colors.white
-                                      : Colors.grey,
+                                  color: _type == 'income' ? Colors.white : Colors.grey,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -144,8 +129,6 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
                   ],
                 ),
                 const SizedBox(height: 24),
-
-                // Importe
                 TextFormField(
                   controller: _amountController,
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -168,18 +151,16 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
                   validator: (value) {
                     if (value == null || value.isEmpty) return l10n.validationRequired;
                     if (double.tryParse(value.replaceAll(',', '.')) == null) {
-                      return 'Importe no válido';
+                      return l10n.validationInvalidAmount;
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 16),
-
-                // Descripción
                 TextFormField(
                   controller: _descriptionController,
                   decoration: InputDecoration(
-                    labelText: 'Descripción',
+                    labelText: l10n.description,
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -193,8 +174,6 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
                   },
                 ),
                 const SizedBox(height: 16),
-
-                // Fecha
                 GestureDetector(
                   onTap: _selectDate,
                   child: Container(
@@ -216,19 +195,15 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
                   ),
                 ),
                 const SizedBox(height: 32),
-
-                // Botón guardar
                 ElevatedButton(
                   onPressed: _save,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _type == 'income' ? Colors.green : Colors.red,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
-                  child: const Text('Guardar', style: TextStyle(fontSize: 16)),
+                  child: Text(l10n.save, style: const TextStyle(fontSize: 16)),
                 ),
               ],
             ),

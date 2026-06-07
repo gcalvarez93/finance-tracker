@@ -212,6 +212,12 @@ abstract class AppLocalizations {
   /// **'Mínimo 6 caracteres'**
   String get validationPasswordLength;
 
+  /// Validación importe
+  ///
+  /// In es, this message translates to:
+  /// **'Importe no válido'**
+  String get validationInvalidAmount;
+
   /// Balance total
   ///
   /// In es, this message translates to:
@@ -235,6 +241,42 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Añadir movimiento'**
   String get addTransaction;
+
+  /// Campo descripción
+  ///
+  /// In es, this message translates to:
+  /// **'Descripción'**
+  String get description;
+
+  /// Botón guardar
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar'**
+  String get save;
+
+  /// Sin transacciones
+  ///
+  /// In es, this message translates to:
+  /// **'No hay movimientos aún'**
+  String get noTransactions;
+
+  /// Últimos movimientos
+  ///
+  /// In es, this message translates to:
+  /// **'Últimos movimientos'**
+  String get latestTransactions;
+
+  /// Resumen financiero
+  ///
+  /// In es, this message translates to:
+  /// **'Tu resumen financiero'**
+  String get financialSummary;
+
+  /// Saludo con nombre
+  ///
+  /// In es, this message translates to:
+  /// **'Hola, {name} 👋'**
+  String greeting(String name);
 
   /// Exportar
   ///
@@ -265,6 +307,162 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Cerrar sesión'**
   String get logout;
+
+  /// Editar perfil
+  ///
+  /// In es, this message translates to:
+  /// **'Editar perfil'**
+  String get editProfile;
+
+  /// Cambiar foto
+  ///
+  /// In es, this message translates to:
+  /// **'Cambiar foto'**
+  String get changePhoto;
+
+  /// Guardar cambios
+  ///
+  /// In es, this message translates to:
+  /// **'Guardar cambios'**
+  String get saveChanges;
+
+  /// Perfil actualizado
+  ///
+  /// In es, this message translates to:
+  /// **'Perfil actualizado correctamente'**
+  String get profileUpdated;
+
+  /// Notificaciones
+  ///
+  /// In es, this message translates to:
+  /// **'Notificaciones'**
+  String get notifications;
+
+  /// Idioma
+  ///
+  /// In es, this message translates to:
+  /// **'Idioma'**
+  String get language;
+
+  /// Ayuda
+  ///
+  /// In es, this message translates to:
+  /// **'Ayuda'**
+  String get help;
+
+  /// Notificaciones generales
+  ///
+  /// In es, this message translates to:
+  /// **'Notificaciones generales'**
+  String get notificationsGeneral;
+
+  /// Subtítulo notificaciones generales
+  ///
+  /// In es, this message translates to:
+  /// **'Recibe actualizaciones generales de la app'**
+  String get notificationsGeneralSubtitle;
+
+  /// Notificaciones de movimientos
+  ///
+  /// In es, this message translates to:
+  /// **'Nuevos movimientos'**
+  String get notificationsTransactions;
+
+  /// Subtítulo notificaciones movimientos
+  ///
+  /// In es, this message translates to:
+  /// **'Recibe alertas cuando se añada un movimiento'**
+  String get notificationsTransactionsSubtitle;
+
+  /// Notificaciones de presupuesto
+  ///
+  /// In es, this message translates to:
+  /// **'Alertas de presupuesto'**
+  String get notificationsBudgets;
+
+  /// Subtítulo notificaciones presupuesto
+  ///
+  /// In es, this message translates to:
+  /// **'Aviso cuando te acerques al límite de tu presupuesto'**
+  String get notificationsBudgetsSubtitle;
+
+  /// Notificaciones de informes
+  ///
+  /// In es, this message translates to:
+  /// **'Informes mensuales'**
+  String get notificationsReports;
+
+  /// Subtítulo notificaciones informes
+  ///
+  /// In es, this message translates to:
+  /// **'Recibe un resumen mensual de tus finanzas'**
+  String get notificationsReportsSubtitle;
+
+  /// Contacto
+  ///
+  /// In es, this message translates to:
+  /// **'Contacto'**
+  String get contact;
+
+  /// Versión
+  ///
+  /// In es, this message translates to:
+  /// **'Versión'**
+  String get version;
+
+  /// Preguntas frecuentes
+  ///
+  /// In es, this message translates to:
+  /// **'Preguntas frecuentes'**
+  String get faq;
+
+  /// FAQ 1 pregunta
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cómo añado un movimiento?'**
+  String get faq1Question;
+
+  /// FAQ 1 respuesta
+  ///
+  /// In es, this message translates to:
+  /// **'Pulsa el botón + en la pantalla principal o en la pestaña de Movimientos.'**
+  String get faq1Answer;
+
+  /// FAQ 2 pregunta
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cómo exporto mis datos?'**
+  String get faq2Question;
+
+  /// FAQ 2 respuesta
+  ///
+  /// In es, this message translates to:
+  /// **'Ve a la pestaña de Movimientos y pulsa el icono de exportar en la parte superior.'**
+  String get faq2Answer;
+
+  /// FAQ 3 pregunta
+  ///
+  /// In es, this message translates to:
+  /// **'¿Cómo escaneo una factura?'**
+  String get faq3Question;
+
+  /// FAQ 3 respuesta
+  ///
+  /// In es, this message translates to:
+  /// **'Pulsa el botón de cámara al añadir un movimiento para escanear automáticamente.'**
+  String get faq3Answer;
+
+  /// FAQ 4 pregunta
+  ///
+  /// In es, this message translates to:
+  /// **'¿Mis datos están seguros?'**
+  String get faq4Question;
+
+  /// FAQ 4 respuesta
+  ///
+  /// In es, this message translates to:
+  /// **'Sí, todos los datos se almacenan de forma segura en Firebase con autenticación.'**
+  String get faq4Answer;
 }
 
 class _AppLocalizationsDelegate

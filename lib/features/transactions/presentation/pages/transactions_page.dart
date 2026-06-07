@@ -30,15 +30,14 @@ class TransactionsPage extends ConsumerWidget {
               const Icon(Icons.receipt_long, size: 64, color: Colors.grey),
               const SizedBox(height: 16),
               Text(
-                'No hay movimientos aún',
+                l10n.noTransactions,
                 style: TextStyle(color: Colors.grey.shade500, fontSize: 16),
               ),
             ],
           ),
         )
             : RefreshIndicator(
-          onRefresh: () =>
-              ref.read(transactionProvider.notifier).loadTransactions(),
+          onRefresh: () => ref.read(transactionProvider.notifier).loadTransactions(),
           child: ListView.builder(
             padding: const EdgeInsets.all(16),
             itemCount: transactions.length,
@@ -59,9 +58,8 @@ class TransactionsPage extends ConsumerWidget {
                   ),
                   child: const Icon(Icons.delete, color: Colors.white),
                 ),
-                onDismissed: (_) => ref
-                    .read(transactionProvider.notifier)
-                    .deleteTransaction(t.id),
+                onDismissed: (_) =>
+                    ref.read(transactionProvider.notifier).deleteTransaction(t.id),
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 12),
                   padding: const EdgeInsets.all(16),
@@ -81,15 +79,11 @@ class TransactionsPage extends ConsumerWidget {
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: isIncome
-                              ? Colors.green.shade50
-                              : Colors.red.shade50,
+                          color: isIncome ? Colors.green.shade50 : Colors.red.shade50,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Icon(
-                          isIncome
-                              ? Icons.arrow_upward
-                              : Icons.arrow_downward,
+                          isIncome ? Icons.arrow_upward : Icons.arrow_downward,
                           color: isIncome ? Colors.green : Colors.red,
                           size: 20,
                         ),
@@ -99,16 +93,12 @@ class TransactionsPage extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              t.description,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600),
-                            ),
+                            Text(t.description,
+                                style: const TextStyle(fontWeight: FontWeight.w600)),
                             Text(
                               '${t.date.day}/${t.date.month}/${t.date.year}',
-                              style: TextStyle(
-                                  color: Colors.grey.shade500,
-                                  fontSize: 12),
+                              style:
+                              TextStyle(color: Colors.grey.shade500, fontSize: 12),
                             ),
                           ],
                         ),

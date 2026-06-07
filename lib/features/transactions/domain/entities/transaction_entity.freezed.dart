@@ -12,8 +12,7 @@ part of 'transaction_entity.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$TransactionEntity {
@@ -25,9 +24,7 @@ mixin _$TransactionEntity {
   DateTime get date => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
-  /// Create a copy of TransactionEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TransactionEntityCopyWith<TransactionEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -35,19 +32,17 @@ mixin _$TransactionEntity {
 /// @nodoc
 abstract class $TransactionEntityCopyWith<$Res> {
   factory $TransactionEntityCopyWith(
-    TransactionEntity value,
-    $Res Function(TransactionEntity) then,
-  ) = _$TransactionEntityCopyWithImpl<$Res, TransactionEntity>;
+          TransactionEntity value, $Res Function(TransactionEntity) then) =
+      _$TransactionEntityCopyWithImpl<$Res, TransactionEntity>;
   @useResult
-  $Res call({
-    String id,
-    double amount,
-    String type,
-    String categoryId,
-    String description,
-    DateTime date,
-    DateTime createdAt,
-  });
+  $Res call(
+      {String id,
+      double amount,
+      String type,
+      String categoryId,
+      String description,
+      DateTime date,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -60,8 +55,6 @@ class _$TransactionEntityCopyWithImpl<$Res, $Val extends TransactionEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TransactionEntity
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -73,73 +66,65 @@ class _$TransactionEntityCopyWithImpl<$Res, $Val extends TransactionEntity>
     Object? date = null,
     Object? createdAt = null,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            amount: null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                      as double,
-            type: null == type
-                ? _value.type
-                : type // ignore: cast_nullable_to_non_nullable
-                      as String,
-            categoryId: null == categoryId
-                ? _value.categoryId
-                : categoryId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            description: null == description
-                ? _value.description
-                : description // ignore: cast_nullable_to_non_nullable
-                      as String,
-            date: null == date
-                ? _value.date
-                : date // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            createdAt: null == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      categoryId: null == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$TransactionEntityImplCopyWith<$Res>
     implements $TransactionEntityCopyWith<$Res> {
-  factory _$$TransactionEntityImplCopyWith(
-    _$TransactionEntityImpl value,
-    $Res Function(_$TransactionEntityImpl) then,
-  ) = __$$TransactionEntityImplCopyWithImpl<$Res>;
+  factory _$$TransactionEntityImplCopyWith(_$TransactionEntityImpl value,
+          $Res Function(_$TransactionEntityImpl) then) =
+      __$$TransactionEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String id,
-    double amount,
-    String type,
-    String categoryId,
-    String description,
-    DateTime date,
-    DateTime createdAt,
-  });
+  $Res call(
+      {String id,
+      double amount,
+      String type,
+      String categoryId,
+      String description,
+      DateTime date,
+      DateTime createdAt});
 }
 
 /// @nodoc
 class __$$TransactionEntityImplCopyWithImpl<$Res>
     extends _$TransactionEntityCopyWithImpl<$Res, _$TransactionEntityImpl>
     implements _$$TransactionEntityImplCopyWith<$Res> {
-  __$$TransactionEntityImplCopyWithImpl(
-    _$TransactionEntityImpl _value,
-    $Res Function(_$TransactionEntityImpl) _then,
-  ) : super(_value, _then);
+  __$$TransactionEntityImplCopyWithImpl(_$TransactionEntityImpl _value,
+      $Res Function(_$TransactionEntityImpl) _then)
+      : super(_value, _then);
 
-  /// Create a copy of TransactionEntity
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -151,53 +136,50 @@ class __$$TransactionEntityImplCopyWithImpl<$Res>
     Object? date = null,
     Object? createdAt = null,
   }) {
-    return _then(
-      _$TransactionEntityImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        amount: null == amount
-            ? _value.amount
-            : amount // ignore: cast_nullable_to_non_nullable
-                  as double,
-        type: null == type
-            ? _value.type
-            : type // ignore: cast_nullable_to_non_nullable
-                  as String,
-        categoryId: null == categoryId
-            ? _value.categoryId
-            : categoryId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        description: null == description
-            ? _value.description
-            : description // ignore: cast_nullable_to_non_nullable
-                  as String,
-        date: null == date
-            ? _value.date
-            : date // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        createdAt: null == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-      ),
-    );
+    return _then(_$TransactionEntityImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      categoryId: null == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
   }
 }
 
 /// @nodoc
 
 class _$TransactionEntityImpl implements _TransactionEntity {
-  const _$TransactionEntityImpl({
-    required this.id,
-    required this.amount,
-    required this.type,
-    required this.categoryId,
-    required this.description,
-    required this.date,
-    required this.createdAt,
-  });
+  const _$TransactionEntityImpl(
+      {required this.id,
+      required this.amount,
+      required this.type,
+      required this.categoryId,
+      required this.description,
+      required this.date,
+      required this.createdAt});
 
   @override
   final String id;
@@ -238,38 +220,25 @@ class _$TransactionEntityImpl implements _TransactionEntity {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    amount,
-    type,
-    categoryId,
-    description,
-    date,
-    createdAt,
-  );
+      runtimeType, id, amount, type, categoryId, description, date, createdAt);
 
-  /// Create a copy of TransactionEntity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionEntityImplCopyWith<_$TransactionEntityImpl> get copyWith =>
       __$$TransactionEntityImplCopyWithImpl<_$TransactionEntityImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 }
 
 abstract class _TransactionEntity implements TransactionEntity {
-  const factory _TransactionEntity({
-    required final String id,
-    required final double amount,
-    required final String type,
-    required final String categoryId,
-    required final String description,
-    required final DateTime date,
-    required final DateTime createdAt,
-  }) = _$TransactionEntityImpl;
+  const factory _TransactionEntity(
+      {required final String id,
+      required final double amount,
+      required final String type,
+      required final String categoryId,
+      required final String description,
+      required final DateTime date,
+      required final DateTime createdAt}) = _$TransactionEntityImpl;
 
   @override
   String get id;
@@ -285,11 +254,8 @@ abstract class _TransactionEntity implements TransactionEntity {
   DateTime get date;
   @override
   DateTime get createdAt;
-
-  /// Create a copy of TransactionEntity
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TransactionEntityImplCopyWith<_$TransactionEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -12,8 +12,7 @@ part of 'transaction_model.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 TransactionModel _$TransactionModelFromJson(Map<String, dynamic> json) {
   return _TransactionModel.fromJson(json);
@@ -29,12 +28,8 @@ mixin _$TransactionModel {
   DateTime get date => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
-  /// Serializes this TransactionModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of TransactionModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TransactionModelCopyWith<TransactionModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42,19 +37,17 @@ mixin _$TransactionModel {
 /// @nodoc
 abstract class $TransactionModelCopyWith<$Res> {
   factory $TransactionModelCopyWith(
-    TransactionModel value,
-    $Res Function(TransactionModel) then,
-  ) = _$TransactionModelCopyWithImpl<$Res, TransactionModel>;
+          TransactionModel value, $Res Function(TransactionModel) then) =
+      _$TransactionModelCopyWithImpl<$Res, TransactionModel>;
   @useResult
-  $Res call({
-    String id,
-    double amount,
-    String type,
-    String categoryId,
-    String description,
-    DateTime date,
-    DateTime createdAt,
-  });
+  $Res call(
+      {String id,
+      double amount,
+      String type,
+      String categoryId,
+      String description,
+      DateTime date,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -67,8 +60,6 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TransactionModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,73 +71,65 @@ class _$TransactionModelCopyWithImpl<$Res, $Val extends TransactionModel>
     Object? date = null,
     Object? createdAt = null,
   }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            amount: null == amount
-                ? _value.amount
-                : amount // ignore: cast_nullable_to_non_nullable
-                      as double,
-            type: null == type
-                ? _value.type
-                : type // ignore: cast_nullable_to_non_nullable
-                      as String,
-            categoryId: null == categoryId
-                ? _value.categoryId
-                : categoryId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            description: null == description
-                ? _value.description
-                : description // ignore: cast_nullable_to_non_nullable
-                      as String,
-            date: null == date
-                ? _value.date
-                : date // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            createdAt: null == createdAt
-                ? _value.createdAt
-                : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      categoryId: null == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$TransactionModelImplCopyWith<$Res>
     implements $TransactionModelCopyWith<$Res> {
-  factory _$$TransactionModelImplCopyWith(
-    _$TransactionModelImpl value,
-    $Res Function(_$TransactionModelImpl) then,
-  ) = __$$TransactionModelImplCopyWithImpl<$Res>;
+  factory _$$TransactionModelImplCopyWith(_$TransactionModelImpl value,
+          $Res Function(_$TransactionModelImpl) then) =
+      __$$TransactionModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String id,
-    double amount,
-    String type,
-    String categoryId,
-    String description,
-    DateTime date,
-    DateTime createdAt,
-  });
+  $Res call(
+      {String id,
+      double amount,
+      String type,
+      String categoryId,
+      String description,
+      DateTime date,
+      DateTime createdAt});
 }
 
 /// @nodoc
 class __$$TransactionModelImplCopyWithImpl<$Res>
     extends _$TransactionModelCopyWithImpl<$Res, _$TransactionModelImpl>
     implements _$$TransactionModelImplCopyWith<$Res> {
-  __$$TransactionModelImplCopyWithImpl(
-    _$TransactionModelImpl _value,
-    $Res Function(_$TransactionModelImpl) _then,
-  ) : super(_value, _then);
+  __$$TransactionModelImplCopyWithImpl(_$TransactionModelImpl _value,
+      $Res Function(_$TransactionModelImpl) _then)
+      : super(_value, _then);
 
-  /// Create a copy of TransactionModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -158,53 +141,50 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
     Object? date = null,
     Object? createdAt = null,
   }) {
-    return _then(
-      _$TransactionModelImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        amount: null == amount
-            ? _value.amount
-            : amount // ignore: cast_nullable_to_non_nullable
-                  as double,
-        type: null == type
-            ? _value.type
-            : type // ignore: cast_nullable_to_non_nullable
-                  as String,
-        categoryId: null == categoryId
-            ? _value.categoryId
-            : categoryId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        description: null == description
-            ? _value.description
-            : description // ignore: cast_nullable_to_non_nullable
-                  as String,
-        date: null == date
-            ? _value.date
-            : date // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        createdAt: null == createdAt
-            ? _value.createdAt
-            : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-      ),
-    );
+    return _then(_$TransactionModelImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      categoryId: null == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$TransactionModelImpl implements _TransactionModel {
-  const _$TransactionModelImpl({
-    required this.id,
-    required this.amount,
-    required this.type,
-    required this.categoryId,
-    required this.description,
-    required this.date,
-    required this.createdAt,
-  });
+  const _$TransactionModelImpl(
+      {required this.id,
+      required this.amount,
+      required this.type,
+      required this.categoryId,
+      required this.description,
+      required this.date,
+      required this.createdAt});
 
   factory _$TransactionModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TransactionModelImplFromJson(json);
@@ -246,46 +226,35 @@ class _$TransactionModelImpl implements _TransactionModel {
                 other.createdAt == createdAt));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    amount,
-    type,
-    categoryId,
-    description,
-    date,
-    createdAt,
-  );
+      runtimeType, id, amount, type, categoryId, description, date, createdAt);
 
-  /// Create a copy of TransactionModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionModelImplCopyWith<_$TransactionModelImpl> get copyWith =>
       __$$TransactionModelImplCopyWithImpl<_$TransactionModelImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TransactionModelImplToJson(this);
+    return _$$TransactionModelImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _TransactionModel implements TransactionModel {
-  const factory _TransactionModel({
-    required final String id,
-    required final double amount,
-    required final String type,
-    required final String categoryId,
-    required final String description,
-    required final DateTime date,
-    required final DateTime createdAt,
-  }) = _$TransactionModelImpl;
+  const factory _TransactionModel(
+      {required final String id,
+      required final double amount,
+      required final String type,
+      required final String categoryId,
+      required final String description,
+      required final DateTime date,
+      required final DateTime createdAt}) = _$TransactionModelImpl;
 
   factory _TransactionModel.fromJson(Map<String, dynamic> json) =
       _$TransactionModelImpl.fromJson;
@@ -304,11 +273,8 @@ abstract class _TransactionModel implements TransactionModel {
   DateTime get date;
   @override
   DateTime get createdAt;
-
-  /// Create a copy of TransactionModel
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TransactionModelImplCopyWith<_$TransactionModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

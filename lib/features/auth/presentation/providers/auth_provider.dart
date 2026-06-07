@@ -1,4 +1,5 @@
 // Path: lib/features/auth/presentation/providers/auth_provider.dart
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/errors/failures.dart';
@@ -81,6 +82,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = AuthAuthenticated(user);
     } else {
       state = AuthUnauthenticated();
+    }
+  }
+
+  Future<void> refreshUser() async {
+    await FirebaseAuth.instance.currentUser?.reload();
+    final user = _repository.getCurrentUser();
+    if (user != null) {
+      state = AuthAuthenticated(user);
     }
   }
 

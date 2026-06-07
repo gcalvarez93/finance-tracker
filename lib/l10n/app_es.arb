@@ -58,6 +58,9 @@
   "validationPasswordLength": "Mínimo 6 caracteres",
   "@validationPasswordLength": {"description": "Validación contraseña"},
 
+  "validationInvalidAmount": "Importe no válido",
+  "@validationInvalidAmount": {"description": "Validación importe"},
+
   "balance": "Balance total",
   "@balance": {"description": "Balance total"},
 
@@ -69,6 +72,29 @@
 
   "addTransaction": "Añadir movimiento",
   "@addTransaction": {"description": "Añadir transacción"},
+
+  "description": "Descripción",
+  "@description": {"description": "Campo descripción"},
+
+  "save": "Guardar",
+  "@save": {"description": "Botón guardar"},
+
+  "noTransactions": "No hay movimientos aún",
+  "@noTransactions": {"description": "Sin transacciones"},
+
+  "latestTransactions": "Últimos movimientos",
+  "@latestTransactions": {"description": "Últimos movimientos"},
+
+  "financialSummary": "Tu resumen financiero",
+  "@financialSummary": {"description": "Resumen financiero"},
+
+  "greeting": "Hola, {name} 👋",
+  "@greeting": {
+    "description": "Saludo con nombre",
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
 
   "export": "Exportar",
   "@export": {"description": "Exportar"},
@@ -83,5 +109,83 @@
   "@scanReceipt": {"description": "Escanear factura"},
 
   "logout": "Cerrar sesión",
-  "@logout": {"description": "Cerrar sesión"}
+  "@logout": {"description": "Cerrar sesión"},
+
+  "editProfile": "Editar perfil",
+  "@editProfile": {"description": "Editar perfil"},
+
+  "changePhoto": "Cambiar foto",
+  "@changePhoto": {"description": "Cambiar foto"},
+
+  "saveChanges": "Guardar cambios",
+  "@saveChanges": {"description": "Guardar cambios"},
+
+  "profileUpdated": "Perfil actualizado correctamente",
+  "@profileUpdated": {"description": "Perfil actualizado"},
+
+  "notifications": "Notificaciones",
+  "@notifications": {"description": "Notificaciones"},
+
+  "language": "Idioma",
+  "@language": {"description": "Idioma"},
+
+  "help": "Ayuda",
+  "@help": {"description": "Ayuda"},
+
+  "notificationsGeneral": "Notificaciones generales",
+  "@notificationsGeneral": {"description": "Notificaciones generales"},
+
+  "notificationsGeneralSubtitle": "Recibe actualizaciones generales de la app",
+  "@notificationsGeneralSubtitle": {"description": "Subtítulo notificaciones generales"},
+
+  "notificationsTransactions": "Nuevos movimientos",
+  "@notificationsTransactions": {"description": "Notificaciones de movimientos"},
+
+  "notificationsTransactionsSubtitle": "Recibe alertas cuando se añada un movimiento",
+  "@notificationsTransactionsSubtitle": {"description": "Subtítulo notificaciones movimientos"},
+
+  "notificationsBudgets": "Alertas de presupuesto",
+  "@notificationsBudgets": {"description": "Notificaciones de presupuesto"},
+
+  "notificationsBudgetsSubtitle": "Aviso cuando te acerques al límite de tu presupuesto",
+  "@notificationsBudgetsSubtitle": {"description": "Subtítulo notificaciones presupuesto"},
+
+  "notificationsReports": "Informes mensuales",
+  "@notificationsReports": {"description": "Notificaciones de informes"},
+
+  "notificationsReportsSubtitle": "Recibe un resumen mensual de tus finanzas",
+  "@notificationsReportsSubtitle": {"description": "Subtítulo notificaciones informes"},
+
+  "contact": "Contacto",
+  "@contact": {"description": "Contacto"},
+
+  "version": "Versión",
+  "@version": {"description": "Versión"},
+
+  "faq": "Preguntas frecuentes",
+  "@faq": {"description": "Preguntas frecuentes"},
+
+  "faq1Question": "¿Cómo añado un movimiento?",
+  "@faq1Question": {"description": "FAQ 1 pregunta"},
+
+  "faq1Answer": "Pulsa el botón + en la pantalla principal o en la pestaña de Movimientos.",
+  "@faq1Answer": {"description": "FAQ 1 respuesta"},
+
+  "faq2Question": "¿Cómo exporto mis datos?",
+  "@faq2Question": {"description": "FAQ 2 pregunta"},
+
+  "faq2Answer": "Ve a la pestaña de Movimientos y pulsa el icono de exportar en la parte superior.",
+  "@faq2Answer": {"description": "FAQ 2 respuesta"},
+
+  "faq3Question": "¿Cómo escaneo una factura?",
+  "@faq3Question": {"description": "FAQ 3 pregunta"},
+
+  "faq3Answer": "Pulsa el botón de cámara al añadir un movimiento para escanear automáticamente.",
+  "@faq3Answer": {"description": "FAQ 3 respuesta"},
+
+  "faq4Question": "¿Mis datos están seguros?",
+  "@faq4Question": {"description": "FAQ 4 pregunta"},
+
+  "faq4Answer": "Sí, todos los datos se almacenan de forma segura en Firebase con autenticación.",
+  "@faq4Answer": {"description": "FAQ 4 respuesta"}
 }

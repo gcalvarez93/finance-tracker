@@ -66,6 +66,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get validationPasswordLength => 'Mínimo 6 caracteres';
 
   @override
+  String get validationInvalidAmount => 'Importe no válido';
+
+  @override
   String get balance => 'Balance total';
 
   @override
@@ -76,6 +79,26 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get addTransaction => 'Añadir movimiento';
+
+  @override
+  String get description => 'Descripción';
+
+  @override
+  String get save => 'Guardar';
+
+  @override
+  String get noTransactions => 'No hay movimientos aún';
+
+  @override
+  String get latestTransactions => 'Últimos movimientos';
+
+  @override
+  String get financialSummary => 'Tu resumen financiero';
+
+  @override
+  String greeting(String name) {
+    return 'Hola, $name 👋';
+  }
 
   @override
   String get export => 'Exportar';
@@ -91,4 +114,90 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get logout => 'Cerrar sesión';
+
+  @override
+  String get editProfile => 'Editar perfil';
+
+  @override
+  String get changePhoto => 'Cambiar foto';
+
+  @override
+  String get saveChanges => 'Guardar cambios';
+
+  @override
+  String get profileUpdated => 'Perfil actualizado correctamente';
+
+  @override
+  String get notifications => 'Notificaciones';
+
+  @override
+  String get language => 'Idioma';
+
+  @override
+  String get help => 'Ayuda';
+
+  @override
+  String get notificationsGeneral => 'Notificaciones generales';
+
+  @override
+  String get notificationsGeneralSubtitle =>
+      'Recibe actualizaciones generales de la app';
+
+  @override
+  String get notificationsTransactions => 'Nuevos movimientos';
+
+  @override
+  String get notificationsTransactionsSubtitle =>
+      'Recibe alertas cuando se añada un movimiento';
+
+  @override
+  String get notificationsBudgets => 'Alertas de presupuesto';
+
+  @override
+  String get notificationsBudgetsSubtitle =>
+      'Aviso cuando te acerques al límite de tu presupuesto';
+
+  @override
+  String get notificationsReports => 'Informes mensuales';
+
+  @override
+  String get notificationsReportsSubtitle =>
+      'Recibe un resumen mensual de tus finanzas';
+
+  @override
+  String get contact => 'Contacto';
+
+  @override
+  String get version => 'Versión';
+
+  @override
+  String get faq => 'Preguntas frecuentes';
+
+  @override
+  String get faq1Question => '¿Cómo añado un movimiento?';
+
+  @override
+  String get faq1Answer =>
+      'Pulsa el botón + en la pantalla principal o en la pestaña de Movimientos.';
+
+  @override
+  String get faq2Question => '¿Cómo exporto mis datos?';
+
+  @override
+  String get faq2Answer =>
+      'Ve a la pestaña de Movimientos y pulsa el icono de exportar en la parte superior.';
+
+  @override
+  String get faq3Question => '¿Cómo escaneo una factura?';
+
+  @override
+  String get faq3Answer =>
+      'Pulsa el botón de cámara al añadir un movimiento para escanear automáticamente.';
+
+  @override
+  String get faq4Question => '¿Mis datos están seguros?';
+
+  @override
+  String get faq4Answer =>
+      'Sí, todos los datos se almacenan de forma segura en Firebase con autenticación.';
 }

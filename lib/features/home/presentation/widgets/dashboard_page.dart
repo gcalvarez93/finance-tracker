@@ -30,7 +30,6 @@ class DashboardPage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -38,13 +37,13 @@ class DashboardPage extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Hola, $userName 👋',
+                          l10n.greeting(userName),
                           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          'Tu resumen financiero',
+                          l10n.financialSummary,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: Colors.grey,
                           ),
@@ -58,111 +57,95 @@ class DashboardPage extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 24),
-
-                // Balance Card
                 switch (transactionState) {
-                  TransactionLoading() => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  TransactionLoaded(:final balance, :final transactions) =>
-                      Column(
-                        children: [
-                          // Balance total
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(24),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Colors.green.shade600, Colors.green.shade400],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.circular(20),
+                  TransactionLoading() => const Center(child: CircularProgressIndicator()),
+                  TransactionLoaded(:final balance, :final transactions) => Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.green.shade600, Colors.green.shade400],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.balance,
+                              style: const TextStyle(color: Colors.white70, fontSize: 14),
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            const SizedBox(height: 8),
+                            Text(
+                              '${balance.toStringAsFixed(2)} €',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 36,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
                               children: [
-                                Text(
-                                  l10n.balance,
-                                  style: const TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 14,
-                                  ),
+                                _SummaryChip(
+                                  label: l10n.income,
+                                  amount: transactions
+                                      .where((t) => t.type == 'income')
+                                      .fold(0.0, (sum, t) => sum + t.amount),
+                                  icon: Icons.arrow_upward,
+                                  color: Colors.greenAccent,
                                 ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  '${balance.toStringAsFixed(2)} €',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                Row(
-                                  children: [
-                                    _SummaryChip(
-                                      label: l10n.income,
-                                      amount: transactions
-                                          .where((t) => t.type == 'income')
-                                          .fold(0.0, (sum, t) => sum + t.amount),
-                                      icon: Icons.arrow_upward,
-                                      color: Colors.greenAccent,
-                                    ),
-                                    const SizedBox(width: 16),
-                                    _SummaryChip(
-                                      label: l10n.expense,
-                                      amount: transactions
-                                          .where((t) => t.type == 'expense')
-                                          .fold(0.0, (sum, t) => sum + t.amount),
-                                      icon: Icons.arrow_downward,
-                                      color: Colors.redAccent,
-                                    ),
-                                  ],
+                                const SizedBox(width: 16),
+                                _SummaryChip(
+                                  label: l10n.expense,
+                                  amount: transactions
+                                      .where((t) => t.type == 'expense')
+                                      .fold(0.0, (sum, t) => sum + t.amount),
+                                  icon: Icons.arrow_downward,
+                                  color: Colors.redAccent,
                                 ),
                               ],
                             ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            l10n.latestTransactions,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(height: 24),
-
-                          // Últimas transacciones
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      if (transactions.isEmpty)
+                        Center(
+                          child: Column(
                             children: [
+                              const Icon(Icons.receipt_long, size: 64, color: Colors.grey),
+                              const SizedBox(height: 8),
                               Text(
-                                'Últimos movimientos',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold),
+                                l10n.noTransactions,
+                                style: TextStyle(color: Colors.grey.shade500),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 16),
-
-                          if (transactions.isEmpty)
-                            Center(
-                              child: Column(
-                                children: [
-                                  const Icon(Icons.receipt_long,
-                                      size: 64, color: Colors.grey),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    'No hay movimientos aún',
-                                    style: TextStyle(color: Colors.grey.shade500),
-                                  ),
-                                ],
-                              ),
-                            )
-                          else
-                            ...transactions.take(5).map(
-                                  (t) => _TransactionTile(transaction: t),
-                            ),
-                        ],
-                      ),
-                  TransactionError(:final message) => Center(
-                    child: Text(message, style: const TextStyle(color: Colors.red)),
+                        )
+                      else
+                        ...transactions.take(5).map((t) => _TransactionTile(transaction: t)),
+                    ],
                   ),
+                  TransactionError(:final message) =>
+                      Center(child: Text(message, style: const TextStyle(color: Colors.red))),
                   _ => const SizedBox(),
                 },
               ],
@@ -177,10 +160,7 @@ class DashboardPage extends ConsumerWidget {
         ),
         backgroundColor: Colors.green,
         icon: const Icon(Icons.add, color: Colors.white),
-        label: Text(
-          l10n.addTransaction,
-          style: const TextStyle(color: Colors.white),
-        ),
+        label: Text(l10n.addTransaction, style: const TextStyle(color: Colors.white)),
       ),
     );
   }
@@ -208,14 +188,10 @@ class _SummaryChip extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label,
-                style: const TextStyle(color: Colors.white70, fontSize: 12)),
+            Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
             Text(
               '${amount.toStringAsFixed(2)} €',
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold),
+              style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -240,11 +216,7 @@ class _TransactionTile extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
-          BoxShadow(
-            color: Colors.grey.shade100,
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
+          BoxShadow(color: Colors.grey.shade100, blurRadius: 8, offset: const Offset(0, 2)),
         ],
       ),
       child: Row(
@@ -266,12 +238,9 @@ class _TransactionTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(transaction.description, style: const TextStyle(fontWeight: FontWeight.w600)),
                 Text(
-                  transaction.description,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  transaction.date.toString().substring(0, 10),
+                  '${transaction.date.day}/${transaction.date.month}/${transaction.date.year}',
                   style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
                 ),
               ],
