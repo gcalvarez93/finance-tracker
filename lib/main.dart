@@ -1,10 +1,13 @@
 // Path: lib/main.dart
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'features/auth/presentation/providers/auth_provider.dart';
+import 'features/home/presentation/pages/home_page.dart';
 import 'firebase_options.dart';
+import 'l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +27,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('es'),
+        Locale('en'),
+      ],
       home: const AuthGate(),
     );
   }
@@ -43,9 +56,7 @@ class AuthGate extends ConsumerWidget {
       AuthLoading() => const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       ),
-      AuthAuthenticated() => const Scaffold(
-        body: Center(child: Text('¡Bienvenido!')),
-      ),
+      AuthAuthenticated() => const HomePage(),
       AuthUnauthenticated() => const LoginPage(),
       AuthError() => const LoginPage(),
     };

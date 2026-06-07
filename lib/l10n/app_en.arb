@@ -1,0 +1,37 @@
+{
+  "@@locale": "en",
+
+  "appName": "Finance Tracker",
+  "navHome": "Home",
+  "navTransactions": "Transactions",
+  "navCategories": "Categories",
+  "navBudgets": "Budgets",
+  "navProfile": "Profile",
+
+  "loginTitle": "Sign in to continue",
+  "loginEmail": "Email",
+  "loginPassword": "Password",
+  "loginButton": "Sign in",
+  "loginWithGoogle": "Continue with Google",
+  "loginNoAccount": "Don't have an account?",
+  "loginRegister": "Register",
+
+  "registerTitle": "Create account",
+  "registerName": "Name",
+  "registerButton": "Register",
+
+  "validationRequired": "This field is required",
+  "validationEmail": "Invalid email",
+  "validationPasswordLength": "Minimum 6 characters",
+
+  "balance": "Total balance",
+  "income": "Income",
+  "expense": "Expenses",
+  "addTransaction": "Add transaction",
+
+  "export": "Export",
+  "exportPdf": "Export PDF",
+  "exportExcel": "Export Excel",
+  "scanReceipt": "Scan receipt",
+  "logout": "Sign out"
+}

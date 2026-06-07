@@ -1,6 +1,7 @@
 // Path: lib/features/auth/presentation/pages/login_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/google_sign_in_button.dart';
@@ -35,6 +36,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final authState = ref.watch(authProvider);
     final isLoading = authState is AuthLoading;
 
@@ -60,7 +62,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     size: 80, color: Colors.green),
                 const SizedBox(height: 24),
                 Text(
-                  'Finance Tracker',
+                  l10n.appName,
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -68,7 +70,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Inicia sesión para continuar',
+                  l10n.loginTitle,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.grey,
                   ),
@@ -77,22 +79,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 const SizedBox(height: 48),
                 AuthTextField(
                   controller: _emailController,
-                  label: 'Email',
+                  label: l10n.loginEmail,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
-                    if (value == null || value.isEmpty) return 'Introduce tu email';
-                    if (!value.contains('@')) return 'Email no válido';
+                    if (value == null || value.isEmpty) return l10n.validationRequired;
+                    if (!value.contains('@')) return l10n.validationEmail;
                     return null;
                   },
                 ),
                 const SizedBox(height: 16),
                 AuthTextField(
                   controller: _passwordController,
-                  label: 'Contraseña',
+                  label: l10n.loginPassword,
                   obscureText: true,
                   validator: (value) {
-                    if (value == null || value.isEmpty) return 'Introduce tu contraseña';
-                    if (value.length < 6) return 'Mínimo 6 caracteres';
+                    if (value == null || value.isEmpty) return l10n.validationRequired;
+                    if (value.length < 6) return l10n.validationPasswordLength;
                     return null;
                   },
                 ),
@@ -109,8 +111,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                   child: isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text('Iniciar sesión',
-                      style: TextStyle(fontSize: 16)),
+                      : Text(l10n.loginButton, style: const TextStyle(fontSize: 16)),
                 ),
                 const SizedBox(height: 16),
                 const Row(
@@ -133,14 +134,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('¿No tienes cuenta?'),
+                    Text(l10n.loginNoAccount),
                     TextButton(
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (_) => const RegisterPage()),
                       ),
-                      child: const Text('Regístrate'),
+                      child: Text(l10n.loginRegister),
                     ),
                   ],
                 ),

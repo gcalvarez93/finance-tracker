@@ -1,0 +1,87 @@
+{
+  "@@locale": "es",
+
+  "appName": "Finance Tracker",
+  "@appName": {"description": "Nombre de la app"},
+
+  "navHome": "Inicio",
+  "@navHome": {"description": "Navegación - Inicio"},
+
+  "navTransactions": "Movimientos",
+  "@navTransactions": {"description": "Navegación - Movimientos"},
+
+  "navCategories": "Categorías",
+  "@navCategories": {"description": "Navegación - Categorías"},
+
+  "navBudgets": "Presupuestos",
+  "@navBudgets": {"description": "Navegación - Presupuestos"},
+
+  "navProfile": "Perfil",
+  "@navProfile": {"description": "Navegación - Perfil"},
+
+  "loginTitle": "Inicia sesión para continuar",
+  "@loginTitle": {"description": "Título de la pantalla de login"},
+
+  "loginEmail": "Email",
+  "@loginEmail": {"description": "Campo email"},
+
+  "loginPassword": "Contraseña",
+  "@loginPassword": {"description": "Campo contraseña"},
+
+  "loginButton": "Iniciar sesión",
+  "@loginButton": {"description": "Botón de login"},
+
+  "loginWithGoogle": "Continuar con Google",
+  "@loginWithGoogle": {"description": "Botón de Google"},
+
+  "loginNoAccount": "¿No tienes cuenta?",
+  "@loginNoAccount": {"description": "Texto sin cuenta"},
+
+  "loginRegister": "Regístrate",
+  "@loginRegister": {"description": "Link de registro"},
+
+  "registerTitle": "Crear cuenta",
+  "@registerTitle": {"description": "Título de registro"},
+
+  "registerName": "Nombre",
+  "@registerName": {"description": "Campo nombre"},
+
+  "registerButton": "Registrarse",
+  "@registerButton": {"description": "Botón de registro"},
+
+  "validationRequired": "Este campo es obligatorio",
+  "@validationRequired": {"description": "Validación campo obligatorio"},
+
+  "validationEmail": "Email no válido",
+  "@validationEmail": {"description": "Validación email"},
+
+  "validationPasswordLength": "Mínimo 6 caracteres",
+  "@validationPasswordLength": {"description": "Validación contraseña"},
+
+  "balance": "Balance total",
+  "@balance": {"description": "Balance total"},
+
+  "income": "Ingresos",
+  "@income": {"description": "Ingresos"},
+
+  "expense": "Gastos",
+  "@expense": {"description": "Gastos"},
+
+  "addTransaction": "Añadir movimiento",
+  "@addTransaction": {"description": "Añadir transacción"},
+
+  "export": "Exportar",
+  "@export": {"description": "Exportar"},
+
+  "exportPdf": "Exportar PDF",
+  "@exportPdf": {"description": "Exportar PDF"},
+
+  "exportExcel": "Exportar Excel",
+  "@exportExcel": {"description": "Exportar Excel"},
+
+  "scanReceipt": "Escanear factura",
+  "@scanReceipt": {"description": "Escanear factura"},
+
+  "logout": "Cerrar sesión",
+  "@logout": {"description": "Cerrar sesión"}
+}

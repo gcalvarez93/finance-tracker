@@ -1,6 +1,8 @@
 // Path: lib/features/auth/presentation/pages/register_page.dart
+// Path: lib/features/auth/presentation/pages/register_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/google_sign_in_button.dart';
@@ -37,6 +39,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final authState = ref.watch(authProvider);
     final isLoading = authState is AuthLoading;
 
@@ -53,12 +56,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Crear cuenta'),
+        title: Text(l10n.registerTitle),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -73,31 +75,31 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 const SizedBox(height: 24),
                 AuthTextField(
                   controller: _nameController,
-                  label: 'Nombre',
+                  label: l10n.registerName,
                   validator: (value) {
-                    if (value == null || value.isEmpty) return 'Introduce tu nombre';
+                    if (value == null || value.isEmpty) return l10n.validationRequired;
                     return null;
                   },
                 ),
                 const SizedBox(height: 16),
                 AuthTextField(
                   controller: _emailController,
-                  label: 'Email',
+                  label: l10n.loginEmail,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
-                    if (value == null || value.isEmpty) return 'Introduce tu email';
-                    if (!value.contains('@')) return 'Email no válido';
+                    if (value == null || value.isEmpty) return l10n.validationRequired;
+                    if (!value.contains('@')) return l10n.validationEmail;
                     return null;
                   },
                 ),
                 const SizedBox(height: 16),
                 AuthTextField(
                   controller: _passwordController,
-                  label: 'Contraseña',
+                  label: l10n.loginPassword,
                   obscureText: true,
                   validator: (value) {
-                    if (value == null || value.isEmpty) return 'Introduce tu contraseña';
-                    if (value.length < 6) return 'Mínimo 6 caracteres';
+                    if (value == null || value.isEmpty) return l10n.validationRequired;
+                    if (value.length < 6) return l10n.validationPasswordLength;
                     return null;
                   },
                 ),
@@ -114,7 +116,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   ),
                   child: isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text('Registrarse', style: TextStyle(fontSize: 16)),
+                      : Text(l10n.registerButton, style: const TextStyle(fontSize: 16)),
                 ),
                 const SizedBox(height: 16),
                 const Row(
