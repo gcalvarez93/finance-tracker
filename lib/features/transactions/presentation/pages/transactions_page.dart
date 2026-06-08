@@ -34,7 +34,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(l10n.exportSuccess),
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.blueAccent,
           ),
         );
       }
@@ -78,7 +78,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.table_chart, color: Colors.green),
+              leading: const Icon(Icons.table_chart, color: Colors.blueAccent),
               title: Text(l10n.exportExcel),
               onTap: () {
                 Navigator.pop(context);
@@ -225,7 +225,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
           context,
           MaterialPageRoute(builder: (_) => const AddTransactionPage()),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blueAccent,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );

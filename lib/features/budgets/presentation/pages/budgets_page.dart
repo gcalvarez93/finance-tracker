@@ -98,7 +98,7 @@ class BudgetsPage extends ConsumerWidget {
                         ? Colors.red
                         : percentage > 0.8
                         ? Colors.orange
-                        : Colors.green;
+                        : Colors.blueAccent;
 
                     return Dismissible(
                       key: Key(budget.id),
@@ -212,7 +212,7 @@ class BudgetsPage extends ConsumerWidget {
           backgroundColor: Colors.transparent,
           builder: (_) => _AddBudgetSheet(selectedMonth: selectedMonth),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blueAccent,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
@@ -285,7 +285,7 @@ class _AddBudgetSheetState extends ConsumerState<_AddBudgetSheet> {
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Colors.green),
+                borderSide: const BorderSide(color: Colors.blueAccent),
               ),
             ),
             items: categories.map((cat) => DropdownMenuItem(
@@ -309,7 +309,7 @@ class _AddBudgetSheetState extends ConsumerState<_AddBudgetSheet> {
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Colors.green),
+                borderSide: const BorderSide(color: Colors.blueAccent),
               ),
             ),
           ),
@@ -365,13 +365,13 @@ class _AddBudgetSheetState extends ConsumerState<_AddBudgetSheet> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(l10n.budgetCreated),
-                    backgroundColor: Colors.green,
+                    backgroundColor: Colors.blueAccent,
                   ),
                 );
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.blueAccent,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

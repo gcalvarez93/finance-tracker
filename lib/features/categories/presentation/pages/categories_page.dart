@@ -120,7 +120,7 @@ class CategoriesPage extends ConsumerWidget {
       },
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showCategorySheet(context: context, ref: ref, l10n: l10n),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blueAccent,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
@@ -130,7 +130,7 @@ class CategoriesPage extends ConsumerWidget {
     try {
       return Color(int.parse(hex.replaceFirst('#', '0xFF')));
     } catch (_) {
-      return Colors.green;
+      return Colors.blueAccent;
     }
   }
 
@@ -187,7 +187,7 @@ class CategoriesPage extends ConsumerWidget {
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.green),
+                    borderSide: const BorderSide(color: Colors.blueAccent),
                   ),
                 ),
               ),
@@ -204,7 +204,7 @@ class CategoriesPage extends ConsumerWidget {
                     decoration: BoxDecoration(
                       color: selectedIcon == icon ? Colors.green.shade50 : Colors.grey.shade100,
                       borderRadius: BorderRadius.circular(8),
-                      border: selectedIcon == icon ? Border.all(color: Colors.green) : null,
+                      border: selectedIcon == icon ? Border.all(color: Colors.blueAccent) : null,
                     ),
                     child: Text(icon, style: const TextStyle(fontSize: 24)),
                   ),
@@ -256,13 +256,13 @@ class CategoriesPage extends ConsumerWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(isEditing ? l10n.categoryUpdated : l10n.categoryCreated),
-                        backgroundColor: Colors.green,
+                        backgroundColor: Colors.blueAccent,
                       ),
                     );
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: Colors.blueAccent,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
