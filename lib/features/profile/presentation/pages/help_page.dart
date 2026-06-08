@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../core/config/app_config.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../widgets/help_section.dart';
+import '../widgets/faq_tile.dart';
 
 class HelpPage extends StatefulWidget {
   const HelpPage({super.key});
@@ -42,97 +44,18 @@ class _HelpPageState extends State<HelpPage> {
       body: ListView(
         padding: const EdgeInsets.all(24),
         children: [
-          _HelpSection(
-            icon: Icons.email_outlined,
-            title: l10n.contact,
-            content: AppConfig.contactEmail,
-          ),
-          _HelpSection(
-            icon: Icons.language_outlined,
-            title: 'Web',
-            content: AppConfig.webUrl,
-          ),
-          _HelpSection(
-            icon: Icons.info_outline,
-            title: l10n.version,
-            content: _version.isEmpty ? '...' : _version,
-          ),
+          HelpSection(icon: Icons.email_outlined, title: l10n.contact, content: AppConfig.contactEmail),
+          HelpSection(icon: Icons.language_outlined, title: 'Web', content: AppConfig.webUrl),
+          HelpSection(icon: Icons.info_outline, title: l10n.version, content: _version.isEmpty ? '...' : _version),
           const SizedBox(height: 24),
-          Text(
-            l10n.faq,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
+          Text(l10n.faq,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 16),
-          _FaqTile(question: l10n.faq1Question, answer: l10n.faq1Answer),
-          _FaqTile(question: l10n.faq2Question, answer: l10n.faq2Answer),
-          _FaqTile(question: l10n.faq3Question, answer: l10n.faq3Answer),
-          _FaqTile(question: l10n.faq4Question, answer: l10n.faq4Answer),
+          FaqTile(question: l10n.faq1Question, answer: l10n.faq1Answer),
+          FaqTile(question: l10n.faq2Question, answer: l10n.faq2Answer),
+          FaqTile(question: l10n.faq3Question, answer: l10n.faq3Answer),
+          FaqTile(question: l10n.faq4Question, answer: l10n.faq4Answer),
         ],
-      ),
-    );
-  }
-}
-
-class _HelpSection extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String content;
-
-  const _HelpSection({required this.icon, required this.title, required this.content});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Material(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        elevation: 1,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Icon(icon, color: Colors.blueAccent),
-              const SizedBox(width: 16),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
-                  Text(content, style: const TextStyle(fontWeight: FontWeight.w600)),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _FaqTile extends StatelessWidget {
-  final String question;
-  final String answer;
-
-  const _FaqTile({required this.question, required this.answer});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Material(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        elevation: 1,
-        child: ExpansionTile(
-          title: Text(question, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              child: Text(answer, style: TextStyle(color: Colors.grey.shade600, fontSize: 14)),
-            ),
-          ],
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
       ),
     );
   }

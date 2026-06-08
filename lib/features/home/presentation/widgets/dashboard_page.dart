@@ -6,6 +6,8 @@ import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../transactions/presentation/pages/add_transaction_page.dart';
 import '../../../transactions/presentation/providers/transaction_provider.dart';
 import '../pages/home_page.dart';
+import 'summary_chip.dart';
+import 'dashboard_transaction_tile.dart';
 
 class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
@@ -79,10 +81,8 @@ class DashboardPage extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              l10n.balance,
-                              style: const TextStyle(color: Colors.white70, fontSize: 14),
-                            ),
+                            Text(l10n.balance,
+                                style: const TextStyle(color: Colors.white70, fontSize: 14)),
                             const SizedBox(height: 8),
                             Text(
                               '${balance.toStringAsFixed(2)} €',
@@ -95,16 +95,16 @@ class DashboardPage extends ConsumerWidget {
                             const SizedBox(height: 16),
                             Row(
                               children: [
-                                _SummaryChip(
+                                SummaryChip(
                                   label: l10n.income,
                                   amount: transactions
                                       .where((t) => t.type == 'income')
                                       .fold(0.0, (sum, t) => sum + t.amount),
                                   icon: Icons.arrow_upward,
-                                  color: Colors.greenAccent,
+                                  color: Colors.lightGreenAccent,
                                 ),
                                 const SizedBox(width: 16),
-                                _SummaryChip(
+                                SummaryChip(
                                   label: l10n.expense,
                                   amount: transactions
                                       .where((t) => t.type == 'expense')
@@ -119,7 +119,6 @@ class DashboardPage extends ConsumerWidget {
                       ),
                       const SizedBox(height: 24),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             l10n.latestTransactions,
@@ -137,15 +136,15 @@ class DashboardPage extends ConsumerWidget {
                             children: [
                               const Icon(Icons.receipt_long, size: 64, color: Colors.grey),
                               const SizedBox(height: 8),
-                              Text(
-                                l10n.noTransactions,
-                                style: TextStyle(color: Colors.grey.shade500),
-                              ),
+                              Text(l10n.noTransactions,
+                                  style: TextStyle(color: Colors.grey.shade500)),
                             ],
                           ),
                         )
                       else
-                        ...transactions.take(5).map((t) => _TransactionTile(transaction: t)),
+                        ...transactions
+                            .take(5)
+                            .map((t) => DashboardTransactionTile(transaction: t)),
                     ],
                   ),
                   TransactionError(:final message) =>
@@ -165,102 +164,6 @@ class DashboardPage extends ConsumerWidget {
         backgroundColor: Colors.blueAccent,
         icon: const Icon(Icons.add, color: Colors.white),
         label: Text(l10n.addTransaction, style: const TextStyle(color: Colors.white)),
-      ),
-    );
-  }
-}
-
-class _SummaryChip extends StatelessWidget {
-  final String label;
-  final double amount;
-  final IconData icon;
-  final Color color;
-
-  const _SummaryChip({
-    required this.label,
-    required this.amount,
-    required this.icon,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, color: color, size: 16),
-        const SizedBox(width: 4),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
-            Text(
-              '${amount.toStringAsFixed(2)} €',
-              style: const TextStyle(
-                  color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _TransactionTile extends StatelessWidget {
-  final dynamic transaction;
-
-  const _TransactionTile({required this.transaction});
-
-  @override
-  Widget build(BuildContext context) {
-    final isIncome = transaction.type == 'income';
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(color: Colors.grey.shade100, blurRadius: 8, offset: const Offset(0, 2)),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: isIncome ? Colors.green.shade50 : Colors.red.shade50,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(
-              isIncome ? Icons.arrow_upward : Icons.arrow_downward,
-              color: isIncome ? Colors.green : Colors.red,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(transaction.description,
-                    style: const TextStyle(fontWeight: FontWeight.w600)),
-                Text(
-                  '${transaction.date.day}/${transaction.date.month}/${transaction.date.year}',
-                  style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
-                ),
-              ],
-            ),
-          ),
-          Text(
-            '${isIncome ? '+' : '-'}${transaction.amount.toStringAsFixed(2)} €',
-            style: TextStyle(
-              color: isIncome ? Colors.green : Colors.red,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-        ],
       ),
     );
   }

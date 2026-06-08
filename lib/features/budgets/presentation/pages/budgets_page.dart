@@ -5,6 +5,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../categories/domain/entities/category_entity.dart';
 import '../../../categories/presentation/providers/category_provider.dart';
 import '../providers/budget_provider.dart';
+import '../widgets/budget_stat.dart';
 
 class BudgetsPage extends ConsumerWidget {
   const BudgetsPage({super.key});
@@ -177,18 +178,9 @@ class BudgetsPage extends ConsumerWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                _BudgetStat(
-                                    label: l10n.budgetSpent,
-                                    amount: budget.spent,
-                                    color: progressColor),
-                                _BudgetStat(
-                                    label: l10n.budgetRemaining,
-                                    amount: budget.remaining.abs(),
-                                    color: isOver ? Colors.red : Colors.green),
-                                _BudgetStat(
-                                    label: l10n.budgetLimit,
-                                    amount: budget.amount,
-                                    color: Colors.grey),
+                                BudgetStat(label: l10n.budgetSpent, amount: budget.spent, color: progressColor),
+                                BudgetStat(label: l10n.budgetRemaining, amount: budget.remaining.abs(), color: isOver ? Colors.red : Colors.blueAccent),
+                                BudgetStat(label: l10n.budgetLimit, amount: budget.amount, color: Colors.grey),
                               ],
                             ),
                           ],
@@ -239,8 +231,7 @@ class _AddBudgetSheetState extends ConsumerState<_AddBudgetSheet> {
     super.initState();
     _month = widget.selectedMonth.month;
     _year = widget.selectedMonth.year;
-    Future.microtask(() =>
-        ref.read(categoryProvider.notifier).loadCategories());
+    Future.microtask(() => ref.read(categoryProvider.notifier).loadCategories());
   }
 
   @override
@@ -380,28 +371,6 @@ class _AddBudgetSheetState extends ConsumerState<_AddBudgetSheet> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _BudgetStat extends StatelessWidget {
-  final String label;
-  final double amount;
-  final Color color;
-
-  const _BudgetStat({required this.label, required this.amount, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
-        Text(
-          '${amount.toStringAsFixed(2)} €',
-          style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 14),
-        ),
-      ],
     );
   }
 }

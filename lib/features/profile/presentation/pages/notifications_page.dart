@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../providers/profile_provider.dart';
+import '../widgets/notification_tile.dart';
 
 class NotificationsPage extends ConsumerWidget {
   const NotificationsPage({super.key});
@@ -29,7 +30,8 @@ class NotificationsPage extends ConsumerWidget {
         language: profile.language,
         notifications: profile.notifications,
         notificationsGeneral: notificationsGeneral ?? profile.notificationsGeneral,
-        notificationsTransactions: notificationsTransactions ?? profile.notificationsTransactions,
+        notificationsTransactions:
+        notificationsTransactions ?? profile.notificationsTransactions,
         notificationsBudgets: notificationsBudgets ?? profile.notificationsBudgets,
         notificationsReports: notificationsReports ?? profile.notificationsReports,
       );
@@ -48,75 +50,31 @@ class NotificationsPage extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(24),
         children: [
-          _NotificationTile(
+          NotificationTile(
             title: l10n.notificationsGeneral,
             subtitle: l10n.notificationsGeneralSubtitle,
             value: profile.notificationsGeneral,
             onChanged: (value) => save(notificationsGeneral: value),
           ),
-          _NotificationTile(
+          NotificationTile(
             title: l10n.notificationsTransactions,
             subtitle: l10n.notificationsTransactionsSubtitle,
             value: profile.notificationsTransactions,
             onChanged: (value) => save(notificationsTransactions: value),
           ),
-          _NotificationTile(
+          NotificationTile(
             title: l10n.notificationsBudgets,
             subtitle: l10n.notificationsBudgetsSubtitle,
             value: profile.notificationsBudgets,
             onChanged: (value) => save(notificationsBudgets: value),
           ),
-          _NotificationTile(
+          NotificationTile(
             title: l10n.notificationsReports,
             subtitle: l10n.notificationsReportsSubtitle,
             value: profile.notificationsReports,
             onChanged: (value) => save(notificationsReports: value),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _NotificationTile extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final bool value;
-  final ValueChanged<bool> onChanged;
-
-  const _NotificationTile({
-    required this.title,
-    required this.subtitle,
-    required this.value,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Material(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        elevation: 1,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 4),
-                    Text(subtitle, style: TextStyle(color: Colors.grey.shade500, fontSize: 12)),
-                  ],
-                ),
-              ),
-              Switch(value: value, onChanged: onChanged, activeColor: Colors.blueAccent),
-            ],
-          ),
-        ),
       ),
     );
   }

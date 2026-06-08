@@ -6,6 +6,7 @@ import '../../../../core/network/dio_client.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../data/datasources/export_remote_datasource.dart';
 import '../providers/transaction_provider.dart';
+import '../widgets/transaction_list_tile.dart';
 import 'add_transaction_page.dart';
 
 class TransactionsPage extends ConsumerStatefulWidget {
@@ -32,19 +33,13 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.exportSuccess),
-            backgroundColor: Colors.blueAccent,
-          ),
+          SnackBar(content: Text(l10n.exportSuccess), backgroundColor: Colors.blueAccent),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.exportError),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text(l10n.exportError), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -128,92 +123,23 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
             children: [
               const Icon(Icons.receipt_long, size: 64, color: Colors.grey),
               const SizedBox(height: 16),
-              Text(
-                l10n.noTransactions,
-                style: TextStyle(color: Colors.grey.shade500, fontSize: 16),
-              ),
+              Text(l10n.noTransactions,
+                  style: TextStyle(color: Colors.grey.shade500, fontSize: 16)),
             ],
           ),
         )
             : RefreshIndicator(
-          onRefresh: () => ref.read(transactionProvider.notifier).loadTransactions(),
+          onRefresh: () =>
+              ref.read(transactionProvider.notifier).loadTransactions(),
           child: ListView.builder(
             padding: const EdgeInsets.all(16),
             itemCount: transactions.length,
-            itemBuilder: (context, index) {
-              final t = transactions[index];
-              final isIncome = t.type == 'income';
-
-              return Dismissible(
-                key: Key(t.id),
-                direction: DismissDirection.endToStart,
-                background: Container(
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.only(right: 20),
-                  margin: const EdgeInsets.only(bottom: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(Icons.delete, color: Colors.white),
-                ),
-                onDismissed: (_) =>
-                    ref.read(transactionProvider.notifier).deleteTransaction(t.id),
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade100,
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: isIncome ? Colors.green.shade50 : Colors.red.shade50,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Icon(
-                          isIncome ? Icons.arrow_upward : Icons.arrow_downward,
-                          color: isIncome ? Colors.green : Colors.red,
-                          size: 20,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(t.description,
-                                style: const TextStyle(fontWeight: FontWeight.w600)),
-                            Text(
-                              '${t.date.day}/${t.date.month}/${t.date.year}',
-                              style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        '${isIncome ? '+' : '-'}${t.amount.toStringAsFixed(2)} €',
-                        style: TextStyle(
-                          color: isIncome ? Colors.green : Colors.red,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
+            itemBuilder: (context, index) => TransactionListTile(
+              transaction: transactions[index],
+              onDismissed: () => ref
+                  .read(transactionProvider.notifier)
+                  .deleteTransaction(transactions[index].id),
+            ),
           ),
         ),
         TransactionError(:final message) =>

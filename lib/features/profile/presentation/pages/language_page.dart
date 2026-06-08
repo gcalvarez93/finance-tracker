@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../providers/profile_provider.dart';
+import '../widgets/language_tile.dart';
 
 final localeProvider = StateProvider<Locale>((ref) => const Locale('es'));
 
@@ -48,14 +49,14 @@ class LanguagePage extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(24),
         children: [
-          _LanguageTile(
+          LanguageTile(
             flag: '🇪🇸',
             language: 'Español',
             code: 'es',
             isSelected: currentLanguage == 'es',
             onTap: () => changeLanguage('es'),
           ),
-          _LanguageTile(
+          LanguageTile(
             flag: '🇬🇧',
             language: 'English',
             code: 'en',
@@ -63,41 +64,6 @@ class LanguagePage extends ConsumerWidget {
             onTap: () => changeLanguage('en'),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _LanguageTile extends StatelessWidget {
-  final String flag;
-  final String language;
-  final String code;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _LanguageTile({
-    required this.flag,
-    required this.language,
-    required this.code,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Material(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        elevation: 1,
-        child: ListTile(
-          leading: Text(flag, style: const TextStyle(fontSize: 28)),
-          title: Text(language, style: const TextStyle(fontWeight: FontWeight.w600)),
-          trailing: isSelected ? const Icon(Icons.check_circle, color: Colors.blueAccent) : null,
-          onTap: onTap,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
       ),
     );
   }
