@@ -2,7 +2,7 @@
   "@@locale": "en",
   "appName": "Finance Tracker",
   "navHome": "Home",
-  "navTransactions": "Transactions",
+  "navTransactions": "Moves",
   "navCategories": "Categories",
   "navBudgets": "Budgets",
   "navProfile": "Profile",
