@@ -1,6 +1,6 @@
 # Finance Tracker
 
-A personal finance management app built as part of the [CastroDev](https://castrodev.com) portfolio. Track your income, expenses, budgets, and categories with a clean and intuitive interface.
+A personal finance management app built as part of the CastroDev portfolio. Track your income, expenses, budgets, and categories with a clean and intuitive interface.
 
 ---
 
@@ -145,13 +145,12 @@ flutter test
 ## 🔗 Related
 
 - [CastroDev API](https://github.com/gcalvarez93/castrodev-api) — Shared .NET 10 backend
-- [castrodev.com](https://castrodev.com) — Portfolio
 
 ---
 
 ## 📄 License
 
-MIT © [Gabriel Castro](https://castrodev.com)
+MIT © Gabriel Castro
 
 ---
 
@@ -159,7 +158,7 @@ MIT © [Gabriel Castro](https://castrodev.com)
 
 # Finance Tracker
 
-Aplicación de gestión de finanzas personales desarrollada como parte del portfolio de [CastroDev](https://castrodev.com). Controla tus ingresos, gastos, presupuestos y categorías con una interfaz limpia e intuitiva.
+Aplicación de gestión de finanzas personales desarrollada como parte del portfolio de CastroDev. Controla tus ingresos, gastos, presupuestos y categorías con una interfaz limpia e intuitiva.
 
 ---
 
@@ -238,6 +237,12 @@ flutter test
 
 ---
 
+## 🔗 Relacionado
+
+- [CastroDev API](https://github.com/gcalvarez93/castrodev-api) — Backend compartido en .NET 10
+
+---
+
 ## 📄 Licencia
 
-MIT © [Gabriel Castro](https://castrodev.com)
+MIT © Gabriel Castro
