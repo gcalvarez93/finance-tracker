@@ -21,7 +21,7 @@ class DioClient {
       onRequest: (options, handler) async {
         final user = FirebaseAuth.instance.currentUser;
         if (user != null) {
-          final token = await user.getIdToken(true);
+          final token = await user.getIdToken();
           options.headers['Authorization'] = 'Bearer $token';
         }
         return handler.next(options);

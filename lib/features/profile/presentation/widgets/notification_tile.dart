@@ -38,7 +38,7 @@ class NotificationTile extends StatelessWidget {
                   ],
                 ),
               ),
-              Switch(value: value, onChanged: onChanged, activeColor: Colors.blueAccent),
+              Switch(value: value, onChanged: onChanged, activeThumbColor: Colors.blueAccent),
             ],
           ),
         ),
