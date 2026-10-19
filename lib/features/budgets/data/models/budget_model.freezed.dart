@@ -22,9 +22,7 @@ BudgetModel _$BudgetModelFromJson(Map<String, dynamic> json) {
 mixin _$BudgetModel {
   String get id => throw _privateConstructorUsedError;
   String get categoryId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'categoryName')
   String? get categoryName => throw _privateConstructorUsedError;
-  @JsonKey(name: 'categoryIcon')
   String? get categoryIcon => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   double get spent => throw _privateConstructorUsedError;
@@ -46,8 +44,8 @@ abstract class $BudgetModelCopyWith<$Res> {
   $Res call(
       {String id,
       String categoryId,
-      @JsonKey(name: 'categoryName') String? categoryName,
-      @JsonKey(name: 'categoryIcon') String? categoryIcon,
+      String? categoryName,
+      String? categoryIcon,
       double amount,
       double spent,
       String month,
@@ -124,8 +122,8 @@ abstract class _$$BudgetModelImplCopyWith<$Res>
   $Res call(
       {String id,
       String categoryId,
-      @JsonKey(name: 'categoryName') String? categoryName,
-      @JsonKey(name: 'categoryIcon') String? categoryIcon,
+      String? categoryName,
+      String? categoryIcon,
       double amount,
       double spent,
       String month,
@@ -195,8 +193,8 @@ class _$BudgetModelImpl implements _BudgetModel {
   const _$BudgetModelImpl(
       {required this.id,
       required this.categoryId,
-      @JsonKey(name: 'categoryName') this.categoryName,
-      @JsonKey(name: 'categoryIcon') this.categoryIcon,
+      this.categoryName,
+      this.categoryIcon,
       required this.amount,
       this.spent = 0.0,
       required this.month,
@@ -210,10 +208,8 @@ class _$BudgetModelImpl implements _BudgetModel {
   @override
   final String categoryId;
   @override
-  @JsonKey(name: 'categoryName')
   final String? categoryName;
   @override
-  @JsonKey(name: 'categoryIcon')
   final String? categoryIcon;
   @override
   final double amount;
@@ -272,8 +268,8 @@ abstract class _BudgetModel implements BudgetModel {
   const factory _BudgetModel(
       {required final String id,
       required final String categoryId,
-      @JsonKey(name: 'categoryName') final String? categoryName,
-      @JsonKey(name: 'categoryIcon') final String? categoryIcon,
+      final String? categoryName,
+      final String? categoryIcon,
       required final double amount,
       final double spent,
       required final String month,
@@ -287,10 +283,8 @@ abstract class _BudgetModel implements BudgetModel {
   @override
   String get categoryId;
   @override
-  @JsonKey(name: 'categoryName')
   String? get categoryName;
   @override
-  @JsonKey(name: 'categoryIcon')
   String? get categoryIcon;
   @override
   double get amount;

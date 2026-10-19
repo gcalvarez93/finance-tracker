@@ -1,6 +1,7 @@
 // Path: lib/features/transactions/data/repositories/transaction_repository_impl.dart
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/errors/failures.dart';
+import '../../../../core/logging/app_logger.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../../domain/repositories/i_transaction_repository.dart';
 import '../datasources/transaction_remote_datasource.dart';
@@ -16,7 +17,8 @@ class TransactionRepositoryImpl implements ITransactionRepository {
     try {
       final models = await _datasource.getTransactions();
       return right(models.map(_mapToEntity).toList());
-    } catch (e) {
+    } catch (e, st) {
+      AppLogger.error('TransactionRepositoryImpl.getTransactions', e, st);
       return left(Failure.server(message: e.toString()));
     }
   }
@@ -26,7 +28,8 @@ class TransactionRepositoryImpl implements ITransactionRepository {
     try {
       final balance = await _datasource.getBalance();
       return right(balance);
-    } catch (e) {
+    } catch (e, st) {
+      AppLogger.error('TransactionRepositoryImpl.getBalance', e, st);
       return left(Failure.server(message: e.toString()));
     }
   }
@@ -48,7 +51,8 @@ class TransactionRepositoryImpl implements ITransactionRepository {
         date: date,
       );
       return right(_mapToEntity(model));
-    } catch (e) {
+    } catch (e, st) {
+      AppLogger.error('TransactionRepositoryImpl.createTransaction', e, st);
       return left(Failure.server(message: e.toString()));
     }
   }
@@ -58,7 +62,8 @@ class TransactionRepositoryImpl implements ITransactionRepository {
     try {
       await _datasource.deleteTransaction(id);
       return right(unit);
-    } catch (e) {
+    } catch (e, st) {
+      AppLogger.error('TransactionRepositoryImpl.deleteTransaction', e, st);
       return left(Failure.server(message: e.toString()));
     }
   }

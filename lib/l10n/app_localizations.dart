@@ -332,6 +332,12 @@ abstract class AppLocalizations {
   /// **'Perfil actualizado correctamente'**
   String get profileUpdated;
 
+  /// Error al actualizar el perfil
+  ///
+  /// In es, this message translates to:
+  /// **'No se pudo actualizar el perfil'**
+  String get profileUpdateError;
+
   /// Notificaciones
   ///
   /// In es, this message translates to:

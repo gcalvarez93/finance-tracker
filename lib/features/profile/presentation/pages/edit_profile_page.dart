@@ -1,7 +1,7 @@
 // Path: lib/features/profile/presentation/pages/edit_profile_page.dart
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/logging/app_logger.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../auth/presentation/widgets/auth_text_field.dart';
@@ -39,44 +39,52 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
 
     setState(() => _isLoading = true);
 
-    try {
-      final profileState = ref.read(profileProvider);
-      final p = profileState is ProfileLoaded ? profileState.profile : null;
+    final name = _nameController.text.trim();
+    final profileState = ref.read(profileProvider);
+    final p = profileState is ProfileLoaded ? profileState.profile : null;
 
-      await FirebaseAuth.instance.currentUser?.updateDisplayName(
-        _nameController.text.trim(),
-      );
+    final notifier = ref.read(profileProvider.notifier);
 
-      await ref.read(profileProvider.notifier).updateProfile(
-        name: _nameController.text.trim(),
-        language: p?.language ?? 'es',
-        notifications: p?.notifications ?? true,
-        notificationsGeneral: p?.notificationsGeneral ?? true,
-        notificationsTransactions: p?.notificationsTransactions ?? true,
-        notificationsBudgets: p?.notificationsBudgets ?? false,
-        notificationsReports: p?.notificationsReports ?? false,
-      );
+    Future<bool> saveProfileName(String value) => notifier.updateProfile(
+      name: value,
+      language: p?.language ?? 'es',
+      notifications: p?.notifications ?? true,
+      notificationsGeneral: p?.notificationsGeneral ?? true,
+      notificationsTransactions: p?.notificationsTransactions ?? true,
+      notificationsBudgets: p?.notificationsBudgets ?? false,
+      notificationsReports: p?.notificationsReports ?? false,
+    );
 
-      await ref.read(authProvider.notifier).refreshUser();
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.profileUpdated),
-            backgroundColor: Colors.blueAccent,
-          ),
-        );
-        Navigator.pop(context);
+    // Primero la API (fuente de verdad del perfil) y después Firebase. Si
+    // Firebase falla, se restaura el nombre anterior en la API para que los
+    // dos sistemas no queden con valores distintos.
+    var profileUpdated = await saveProfileName(name);
+    if (profileUpdated) {
+      profileUpdated =
+      await ref.read(authProvider.notifier).updateDisplayName(name);
+      if (!profileUpdated && p != null) {
+        final restored = await saveProfileName(p.name);
+        if (!restored) {
+          AppLogger.warning(
+            'EditProfilePage._save: no se pudo restaurar el nombre anterior',
+          );
+        }
       }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
-        );
-      }
-    } finally {
-      setState(() => _isLoading = false);
     }
+
+    if (!mounted) return;
+    setState(() => _isLoading = false);
+
+    final l10n = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          profileUpdated ? l10n.profileUpdated : l10n.profileUpdateError,
+        ),
+        backgroundColor: profileUpdated ? Colors.blueAccent : Colors.red,
+      ),
+    );
+    if (profileUpdated) Navigator.pop(context);
   }
 
   @override

@@ -18,6 +18,9 @@ abstract interface class IAuthRemoteDatasource {
 
   Future<void> logout();
 
+  /// Actualiza el nombre visible, recarga el usuario y lo devuelve (null si no hay sesión).
+  Future<User?> updateDisplayName(String name);
+
   User? getCurrentUser();
 }
 
@@ -70,6 +73,15 @@ class AuthRemoteDatasource implements IAuthRemoteDatasource {
   Future<void> logout() async {
     await _googleSignIn.signOut();
     await _auth.signOut();
+  }
+
+  @override
+  Future<User?> updateDisplayName(String name) async {
+    final user = _auth.currentUser;
+    if (user == null) return null;
+    await user.updateDisplayName(name);
+    await user.reload();
+    return _auth.currentUser;
   }
 
   @override

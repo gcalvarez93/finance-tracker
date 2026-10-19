@@ -1,10 +1,18 @@
 // Path: lib/features/transactions/presentation/providers/transaction_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/network/dio_client.dart';
+import '../../data/datasources/export_remote_datasource.dart';
+import '../../data/datasources/ocr_remote_datasource.dart';
 import '../../data/datasources/transaction_remote_datasource.dart';
+import '../../data/repositories/export_repository_impl.dart';
+import '../../data/repositories/receipt_scan_repository_impl.dart';
 import '../../data/repositories/transaction_repository_impl.dart';
 import '../../domain/entities/transaction_entity.dart';
+import '../../domain/repositories/i_export_repository.dart';
+import '../../domain/repositories/i_receipt_scan_repository.dart';
 import '../../domain/repositories/i_transaction_repository.dart';
+import '../../domain/usecases/export_transactions_usecase.dart';
+import '../../domain/usecases/scan_receipt_usecase.dart';
 
 // Datasource
 final transactionDatasourceProvider = Provider<ITransactionRemoteDatasource>(
@@ -14,6 +22,32 @@ final transactionDatasourceProvider = Provider<ITransactionRemoteDatasource>(
 // Repository
 final transactionRepositoryProvider = Provider<ITransactionRepository>(
       (ref) => TransactionRepositoryImpl(ref.watch(transactionDatasourceProvider)),
+);
+
+// OCR
+final ocrDatasourceProvider = Provider<IOcrRemoteDatasource>(
+      (ref) => OcrRemoteDatasource(ref.watch(dioClientProvider)),
+);
+
+final receiptScanRepositoryProvider = Provider<IReceiptScanRepository>(
+      (ref) => ReceiptScanRepositoryImpl(ref.watch(ocrDatasourceProvider)),
+);
+
+final scanReceiptUseCaseProvider = Provider(
+      (ref) => ScanReceiptUseCase(ref.watch(receiptScanRepositoryProvider)),
+);
+
+// Exportación
+final exportDatasourceProvider = Provider<IExportRemoteDatasource>(
+      (ref) => ExportRemoteDatasource(ref.watch(dioClientProvider)),
+);
+
+final exportRepositoryProvider = Provider<IExportRepository>(
+      (ref) => ExportRepositoryImpl(ref.watch(exportDatasourceProvider)),
+);
+
+final exportTransactionsUseCaseProvider = Provider(
+      (ref) => ExportTransactionsUseCase(ref.watch(exportRepositoryProvider)),
 );
 
 // State

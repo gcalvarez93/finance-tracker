@@ -2,9 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:open_file/open_file.dart';
-import '../../../../core/network/dio_client.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../data/datasources/export_remote_datasource.dart';
+import '../../domain/entities/export_format.dart';
 import '../providers/transaction_provider.dart';
 import '../widgets/transaction_list_tile.dart';
 import 'add_transaction_page.dart';
@@ -19,32 +18,24 @@ class TransactionsPage extends ConsumerStatefulWidget {
 class _TransactionsPageState extends ConsumerState<TransactionsPage> {
   bool _isExporting = false;
 
-  Future<void> _export(String type) async {
+  Future<void> _export(ExportFormat format) async {
     setState(() => _isExporting = true);
     final l10n = AppLocalizations.of(context)!;
 
-    try {
-      final datasource = ExportRemoteDatasource(ref.read(dioClientProvider));
-      final path = type == 'pdf'
-          ? await datasource.exportPdf()
-          : await datasource.exportExcel();
+    final result = await ref.read(exportTransactionsUseCaseProvider)(format);
+    final String? path = result.fold((_) => null, (p) => p);
 
-      await OpenFile.open(path);
+    if (path != null) await OpenFile.open(path);
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.exportSuccess), backgroundColor: Colors.blueAccent),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.exportError), backgroundColor: Colors.red),
-        );
-      }
-    } finally {
-      setState(() => _isExporting = false);
-    }
+    if (!mounted) return;
+    setState(() => _isExporting = false);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(path != null ? l10n.exportSuccess : l10n.exportError),
+        backgroundColor: path != null ? Colors.blueAccent : Colors.red,
+      ),
+    );
   }
 
   void _showExportOptions() {
@@ -69,7 +60,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
               title: Text(l10n.exportPdf),
               onTap: () {
                 Navigator.pop(context);
-                _export('pdf');
+                _export(ExportFormat.pdf);
               },
             ),
             ListTile(
@@ -77,7 +68,7 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
               title: Text(l10n.exportExcel),
               onTap: () {
                 Navigator.pop(context);
-                _export('excel');
+                _export(ExportFormat.excel);
               },
             ),
           ],

@@ -161,6 +161,10 @@
   "@profileUpdated": {
     "description": "Perfil actualizado"
   },
+  "profileUpdateError": "No se pudo actualizar el perfil",
+  "@profileUpdateError": {
+    "description": "Error al actualizar el perfil"
+  },
   "notifications": "Notificaciones",
   "@notifications": {
     "description": "Notificaciones"

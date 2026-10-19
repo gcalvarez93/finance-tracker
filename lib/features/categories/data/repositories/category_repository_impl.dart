@@ -1,6 +1,7 @@
 // Path: lib/features/categories/data/repositories/category_repository_impl.dart
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/errors/failures.dart';
+import '../../../../core/logging/app_logger.dart';
 import '../../domain/entities/category_entity.dart';
 import '../../domain/repositories/i_category_repository.dart';
 import '../datasources/category_remote_datasource.dart';
@@ -16,7 +17,8 @@ class CategoryRepositoryImpl implements ICategoryRepository {
     try {
       final models = await _datasource.getCategories();
       return right(models.map(_mapToEntity).toList());
-    } catch (e) {
+    } catch (e, st) {
+      AppLogger.error('CategoryRepositoryImpl.getCategories', e, st);
       return left(Failure.server(message: e.toString()));
     }
   }
@@ -34,7 +36,8 @@ class CategoryRepositoryImpl implements ICategoryRepository {
         icon: icon,
       );
       return right(_mapToEntity(model));
-    } catch (e) {
+    } catch (e, st) {
+      AppLogger.error('CategoryRepositoryImpl.createCategory', e, st);
       return left(Failure.server(message: e.toString()));
     }
   }
@@ -54,7 +57,8 @@ class CategoryRepositoryImpl implements ICategoryRepository {
         icon: icon,
       );
       return right(_mapToEntity(model));
-    } catch (e) {
+    } catch (e, st) {
+      AppLogger.error('CategoryRepositoryImpl.updateCategory', e, st);
       return left(Failure.server(message: e.toString()));
     }
   }
@@ -64,7 +68,8 @@ class CategoryRepositoryImpl implements ICategoryRepository {
     try {
       await _datasource.deleteCategory(id);
       return right(unit);
-    } catch (e) {
+    } catch (e, st) {
+      AppLogger.error('CategoryRepositoryImpl.deleteCategory', e, st);
       return left(Failure.server(message: e.toString()));
     }
   }

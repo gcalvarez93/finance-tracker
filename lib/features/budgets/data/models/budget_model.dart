@@ -9,8 +9,8 @@ class BudgetModel with _$BudgetModel {
   const factory BudgetModel({
     required String id,
     required String categoryId,
-    @JsonKey(name: 'categoryName') String? categoryName,
-    @JsonKey(name: 'categoryIcon') String? categoryIcon,
+    String? categoryName,
+    String? categoryIcon,
     required double amount,
     @Default(0.0) double spent,
     required String month,

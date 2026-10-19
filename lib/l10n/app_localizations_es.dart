@@ -128,6 +128,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get profileUpdated => 'Perfil actualizado correctamente';
 
   @override
+  String get profileUpdateError => 'No se pudo actualizar el perfil';
+
+  @override
   String get notifications => 'Notificaciones';
 
   @override

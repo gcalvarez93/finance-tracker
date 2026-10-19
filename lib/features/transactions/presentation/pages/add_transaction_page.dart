@@ -1,14 +1,12 @@
 // Path: lib/features/transactions/presentation/pages/add_transaction_page.dart
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../../core/network/dio_client.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../categories/domain/entities/category_entity.dart';
 import '../../../categories/presentation/providers/category_provider.dart';
 import '../providers/transaction_provider.dart';
-import '../../data/datasources/ocr_remote_datasource.dart';
+import '../../domain/entities/receipt_scan_entity.dart';
 
 class AddTransactionPage extends ConsumerStatefulWidget {
   const AddTransactionPage({super.key});
@@ -50,40 +48,32 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
 
     setState(() => _isScanning = true);
 
-    try {
-      final datasource = OcrRemoteDatasource(ref.read(dioClientProvider));
-      final result = await datasource.scanReceipt(File(picked.path));
+    final result = await ref.read(scanReceiptUseCaseProvider)(picked.path);
 
-      if (result.amount != null) {
-        _amountController.text = result.amount!.toStringAsFixed(2);
-      }
-      if (result.description != null) {
-        _descriptionController.text = result.description!;
-      }
-      if (result.date != null) {
-        setState(() => _date = result.date!);
-      }
+    if (!mounted) return;
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.scanSuccess),
-            backgroundColor: Colors.green,
-          ),
-        );
+    final ReceiptScanEntity? scan = result.fold((_) => null, (s) => s);
+    final l10n = AppLocalizations.of(context)!;
+
+    setState(() {
+      _isScanning = false;
+      if (scan != null) {
+        if (scan.amount != null) {
+          _amountController.text = scan.amount!.toStringAsFixed(2);
+        }
+        if (scan.description != null) {
+          _descriptionController.text = scan.description!;
+        }
+        if (scan.date != null) _date = scan.date!;
       }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context)!.scanError),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } finally {
-      setState(() => _isScanning = false);
-    }
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(scan != null ? l10n.scanSuccess : l10n.scanError),
+        backgroundColor: scan != null ? Colors.green : Colors.red,
+      ),
+    );
   }
 
   void _showScanOptions() {

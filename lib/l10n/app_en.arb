@@ -39,6 +39,7 @@
   "changePhoto": "Change photo",
   "saveChanges": "Save changes",
   "profileUpdated": "Profile updated successfully",
+  "profileUpdateError": "Could not update the profile",
   "notifications": "Notifications",
   "language": "Language",
   "help": "Help",

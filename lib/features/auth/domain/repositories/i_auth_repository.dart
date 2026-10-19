@@ -19,5 +19,8 @@ abstract interface class IAuthRepository {
 
   Future<Either<Failure, Unit>> logout();
 
+  /// Actualiza el nombre visible del usuario autenticado y devuelve el usuario ya refrescado.
+  Future<Either<Failure, UserEntity>> updateDisplayName(String name);
+
   UserEntity? getCurrentUser();
 }
