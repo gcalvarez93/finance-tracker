@@ -2,6 +2,7 @@
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/logging/app_logger.dart';
+import '../../../../core/network/dio_failure_mapper.dart';
 import '../../domain/entities/budget_entity.dart';
 import '../../domain/repositories/i_budget_repository.dart';
 import '../datasources/budget_remote_datasource.dart';
@@ -19,7 +20,7 @@ class BudgetRepositoryImpl implements IBudgetRepository {
       return right(models.map(_mapToEntity).toList());
     } catch (e, st) {
       AppLogger.error('BudgetRepositoryImpl.getBudgets', e, st);
-      return left(Failure.server(message: e.toString()));
+      return left(mapToFailure(e));
     }
   }
 
@@ -40,7 +41,7 @@ class BudgetRepositoryImpl implements IBudgetRepository {
       return right(_mapToEntity(model));
     } catch (e, st) {
       AppLogger.error('BudgetRepositoryImpl.createBudget', e, st);
-      return left(Failure.server(message: e.toString()));
+      return left(mapToFailure(e));
     }
   }
 
@@ -51,7 +52,7 @@ class BudgetRepositoryImpl implements IBudgetRepository {
       return right(unit);
     } catch (e, st) {
       AppLogger.error('BudgetRepositoryImpl.deleteBudget', e, st);
-      return left(Failure.server(message: e.toString()));
+      return left(mapToFailure(e));
     }
   }
 

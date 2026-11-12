@@ -1,6 +1,9 @@
 // Path: lib/features/categories/presentation/pages/categories_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/errors/failure_messages.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/widgets/error_retry_view.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/category_entity.dart';
 import '../providers/category_provider.dart';
@@ -11,6 +14,7 @@ class CategoriesPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final messenger = ScaffoldMessenger.of(context);
     final categoryState = ref.watch(categoryProvider);
 
     return Scaffold(
@@ -58,10 +62,17 @@ class CategoriesPage extends ConsumerWidget {
                   ),
                   child: const Icon(Icons.delete, color: Colors.white),
                 ),
-                onDismissed: (_) {
-                  ref.read(categoryProvider.notifier).deleteCategory(category.id);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(l10n.categoryDeleted)),
+                onDismissed: (_) async {
+                  final failure = await ref
+                      .read(categoryProvider.notifier)
+                      .deleteCategory(category.id);
+                  messenger.showSnackBar(
+                    SnackBar(
+                      content: Text(failure == null
+                          ? l10n.categoryDeleted
+                          : failure.userMessage(l10n)),
+                      backgroundColor: failure == null ? null : Colors.red,
+                    ),
                   );
                 },
                 child: Padding(
@@ -114,8 +125,11 @@ class CategoriesPage extends ConsumerWidget {
             },
           ),
         ),
-        CategoryError(:final message) =>
-            Center(child: Text(message, style: const TextStyle(color: Colors.red))),
+        CategoryError(:final failure) => ErrorRetryView(
+          message: failure.userMessage(l10n),
+          retryLabel: l10n.actionRetry,
+          onRetry: () => ref.read(categoryProvider.notifier).loadCategories(),
+        ),
         _ => const SizedBox(),
       },
       floatingActionButton: FloatingActionButton(
@@ -144,6 +158,8 @@ class CategoriesPage extends ConsumerWidget {
     final nameController = TextEditingController(text: category?.name ?? '');
     String selectedColor = category?.color ?? '#4CAF50';
     String selectedIcon = category?.icon ?? '🏠';
+    var isSaving = false;
+    Failure? saveFailure;
 
     final colors = [
       '#4CAF50', '#2196F3', '#F44336', '#FF9800',
@@ -234,32 +250,57 @@ class CategoriesPage extends ConsumerWidget {
                 }).toList(),
               ),
               const SizedBox(height: 24),
+              if (saveFailure != null) ...[
+                Text(
+                  saveFailure!.userMessage(l10n),
+                  key: const Key('save_error'),
+                  style: const TextStyle(color: Colors.red),
+                ),
+                const SizedBox(height: 16),
+              ],
               ElevatedButton(
-                onPressed: () async {
+                onPressed: isSaving
+                    ? null
+                    : () async {
                   if (nameController.text.trim().isEmpty) return;
-                  if (isEditing) {
-                    await ref.read(categoryProvider.notifier).updateCategory(
-                      id: category.id,
-                      name: nameController.text.trim(),
-                      color: selectedColor,
-                      icon: selectedIcon,
-                    );
-                  } else {
-                    await ref.read(categoryProvider.notifier).createCategory(
-                      name: nameController.text.trim(),
-                      color: selectedColor,
-                      icon: selectedIcon,
-                    );
+                  final messenger = ScaffoldMessenger.of(context);
+                  setState(() {
+                    isSaving = true;
+                    saveFailure = null;
+                  });
+
+                  final notifier = ref.read(categoryProvider.notifier);
+                  final failure = isEditing
+                      ? await notifier.updateCategory(
+                    id: category.id,
+                    name: nameController.text.trim(),
+                    color: selectedColor,
+                    icon: selectedIcon,
+                  )
+                      : await notifier.createCategory(
+                    name: nameController.text.trim(),
+                    color: selectedColor,
+                    icon: selectedIcon,
+                  );
+
+                  if (!context.mounted) return;
+
+                  // Si falla, la hoja sigue abierta y conserva lo escrito.
+                  if (failure != null) {
+                    setState(() {
+                      isSaving = false;
+                      saveFailure = failure;
+                    });
+                    return;
                   }
-                  if (context.mounted) {
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(isEditing ? l10n.categoryUpdated : l10n.categoryCreated),
-                        backgroundColor: Colors.blueAccent,
-                      ),
-                    );
-                  }
+
+                  Navigator.pop(context);
+                  messenger.showSnackBar(
+                    SnackBar(
+                      content: Text(isEditing ? l10n.categoryUpdated : l10n.categoryCreated),
+                      backgroundColor: Colors.blueAccent,
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
@@ -267,7 +308,16 @@ class CategoriesPage extends ConsumerWidget {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
-                child: Text(
+                child: isSaving
+                    ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+                    : Text(
                   isEditing ? l10n.saveChanges : l10n.save,
                   style: const TextStyle(fontSize: 16),
                 ),

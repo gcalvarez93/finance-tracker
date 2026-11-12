@@ -2,6 +2,7 @@
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/logging/app_logger.dart';
+import '../../../../core/network/dio_failure_mapper.dart';
 import '../../domain/entities/export_format.dart';
 import '../../domain/repositories/i_export_repository.dart';
 import '../datasources/export_remote_datasource.dart';
@@ -23,7 +24,7 @@ class ExportRepositoryImpl implements IExportRepository {
       return right(path);
     } catch (e, st) {
       AppLogger.error('ExportRepositoryImpl.exportTransactions', e, st);
-      return left(Failure.server(message: e.toString()));
+      return left(mapToFailure(e));
     }
   }
 }

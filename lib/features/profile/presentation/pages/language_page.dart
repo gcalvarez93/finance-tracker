@@ -20,10 +20,11 @@ class LanguagePage extends ConsumerWidget {
         : currentLocale.languageCode;
 
     Future<void> changeLanguage(String language) async {
+      final messenger = ScaffoldMessenger.of(context);
       ref.read(localeProvider.notifier).state = Locale(language);
       if (profileState is ProfileLoaded) {
         final p = profileState.profile;
-        await ref.read(profileProvider.notifier).updateProfile(
+        final saved = await ref.read(profileProvider.notifier).updateProfile(
           name: p.name,
           language: language,
           notifications: p.notifications,
@@ -32,6 +33,14 @@ class LanguagePage extends ConsumerWidget {
           notificationsBudgets: p.notificationsBudgets,
           notificationsReports: p.notificationsReports,
         );
+        if (!saved) {
+          messenger.showSnackBar(
+            SnackBar(
+              content: Text(l10n.profileUpdateError),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       }
       if (context.mounted) Navigator.pop(context);
     }

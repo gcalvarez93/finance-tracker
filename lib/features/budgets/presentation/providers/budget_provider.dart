@@ -1,5 +1,8 @@
 // Path: lib/features/budgets/presentation/providers/budget_provider.dart
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/errors/failures.dart';
 import '../../../../core/network/dio_client.dart';
 import '../../data/datasources/budget_remote_datasource.dart';
 import '../../data/repositories/budget_repository_impl.dart';
@@ -30,8 +33,8 @@ class BudgetLoaded extends BudgetState {
   BudgetLoaded(this.budgets);
 }
 class BudgetError extends BudgetState {
-  final String message;
-  BudgetError(this.message);
+  final Failure failure;
+  BudgetError(this.failure);
 }
 
 // Notifier
@@ -44,12 +47,13 @@ class BudgetNotifier extends StateNotifier<BudgetState> {
     state = BudgetLoading();
     final result = await _repository.getBudgets(month);
     result.fold(
-          (failure) => state = BudgetError(failure.toString()),
+          (failure) => state = BudgetError(failure),
           (budgets) => state = BudgetLoaded(budgets),
     );
   }
 
-  Future<void> createBudget({
+  /// Devuelve `null` si se creó o el [Failure] si falló (no toca la lista).
+  Future<Failure?> createBudget({
     required String categoryId,
     required double limit,
     required int month,
@@ -61,18 +65,23 @@ class BudgetNotifier extends StateNotifier<BudgetState> {
       month: month,
       year: year,
     );
-    result.fold(
-          (failure) => state = BudgetError(failure.toString()),
-          (_) => loadBudgets('$year-${month.toString().padLeft(2, '0')}'),
+    return result.fold<Failure?>(
+          (failure) => failure,
+          (_) {
+        unawaited(
+          loadBudgets('$year-${month.toString().padLeft(2, '0')}'),
+        );
+        return null;
+      },
     );
   }
 
-  Future<void> deleteBudget(String id, String month) async {
+  /// Devuelve `null` si se borró o el [Failure] si falló. En ambos casos
+  /// recarga el mes para que la lista refleje lo que hay en el servidor.
+  Future<Failure?> deleteBudget(String id, String month) async {
     final result = await _repository.deleteBudget(id);
-    result.fold(
-          (failure) => state = BudgetError(failure.toString()),
-          (_) => loadBudgets(month),
-    );
+    unawaited(loadBudgets(month));
+    return result.fold<Failure?>((failure) => failure, (_) => null);
   }
 }
 

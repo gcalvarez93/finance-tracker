@@ -1,6 +1,10 @@
 // Path: lib/features/categories/presentation/providers/category_provider.dart
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/errors/failures.dart';
 import '../../../../core/network/dio_client.dart';
+import 'package:fpdart/fpdart.dart';
 import '../../data/datasources/category_remote_datasource.dart';
 import '../../data/repositories/category_repository_impl.dart';
 import '../../domain/entities/category_entity.dart';
@@ -25,8 +29,8 @@ class CategoryLoaded extends CategoryState {
   CategoryLoaded(this.categories);
 }
 class CategoryError extends CategoryState {
-  final String message;
-  CategoryError(this.message);
+  final Failure failure;
+  CategoryError(this.failure);
 }
 
 // Notifier
@@ -41,12 +45,13 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
     state = CategoryLoading();
     final result = await _repository.getCategories();
     result.fold(
-          (failure) => state = CategoryError(failure.toString()),
+          (failure) => state = CategoryError(failure),
           (categories) => state = CategoryLoaded(categories),
     );
   }
 
-  Future<void> createCategory({
+  /// Devuelve `null` si se creó o el [Failure] si falló (no toca la lista).
+  Future<Failure?> createCategory({
     required String name,
     required String color,
     required String icon,
@@ -56,13 +61,11 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
       color: color,
       icon: icon,
     );
-    result.fold(
-          (failure) => state = CategoryError(failure.toString()),
-          (_) => loadCategories(),
-    );
+    return _reloadOnSuccess(result);
   }
 
-  Future<void> updateCategory({
+  /// Devuelve `null` si se actualizó o el [Failure] si falló (no toca la lista).
+  Future<Failure?> updateCategory({
     required String id,
     required String name,
     required String color,
@@ -74,17 +77,24 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
       color: color,
       icon: icon,
     );
-    result.fold(
-          (failure) => state = CategoryError(failure.toString()),
-          (_) => loadCategories(),
-    );
+    return _reloadOnSuccess(result);
   }
 
-  Future<void> deleteCategory(String id) async {
+  /// Devuelve `null` si se borró o el [Failure] si falló. En ambos casos
+  /// recarga para que la lista refleje lo que hay en el servidor.
+  Future<Failure?> deleteCategory(String id) async {
     final result = await _repository.deleteCategory(id);
-    result.fold(
-          (failure) => state = CategoryError(failure.toString()),
-          (_) => loadCategories(),
+    unawaited(loadCategories());
+    return result.fold<Failure?>((failure) => failure, (_) => null);
+  }
+
+  Failure? _reloadOnSuccess(Either<Failure, Object?> result) {
+    return result.fold<Failure?>(
+          (failure) => failure,
+          (_) {
+        unawaited(loadCategories());
+        return null;
+      },
     );
   }
 }

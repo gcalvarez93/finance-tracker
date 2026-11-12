@@ -1,6 +1,9 @@
 // Path: lib/features/budgets/presentation/pages/budgets_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/errors/failure_messages.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/widgets/error_retry_view.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../categories/domain/entities/category_entity.dart';
 import '../../../categories/presentation/providers/category_provider.dart';
@@ -16,6 +19,7 @@ class BudgetsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final messenger = ScaffoldMessenger.of(context);
     final selectedMonth = ref.watch(selectedMonthProvider);
     final budgetState = ref.watch(budgetProvider);
     final monthKey = _monthKey(selectedMonth);
@@ -114,10 +118,17 @@ class BudgetsPage extends ConsumerWidget {
                         ),
                         child: const Icon(Icons.delete, color: Colors.white),
                       ),
-                      onDismissed: (_) {
-                        ref.read(budgetProvider.notifier).deleteBudget(budget.id, monthKey);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.budgetDeleted)),
+                      onDismissed: (_) async {
+                        final failure = await ref
+                            .read(budgetProvider.notifier)
+                            .deleteBudget(budget.id, monthKey);
+                        messenger.showSnackBar(
+                          SnackBar(
+                            content: Text(failure == null
+                                ? l10n.budgetDeleted
+                                : failure.userMessage(l10n)),
+                            backgroundColor: failure == null ? null : Colors.red,
+                          ),
                         );
                       },
                       child: Container(
@@ -190,8 +201,12 @@ class BudgetsPage extends ConsumerWidget {
                   },
                 ),
               ),
-              BudgetError(:final message) =>
-                  Center(child: Text(message, style: const TextStyle(color: Colors.red))),
+              BudgetError(:final failure) => ErrorRetryView(
+                message: failure.userMessage(l10n),
+                retryLabel: l10n.actionRetry,
+                onRetry: () =>
+                    ref.read(budgetProvider.notifier).loadBudgets(monthKey),
+              ),
               _ => const SizedBox(),
             },
           ),
@@ -225,6 +240,8 @@ class _AddBudgetSheetState extends ConsumerState<_AddBudgetSheet> {
   CategoryEntity? _selectedCategory;
   late int _month;
   late int _year;
+  bool _isSaving = false;
+  Failure? _saveFailure;
 
   @override
   void initState() {
@@ -337,13 +354,30 @@ class _AddBudgetSheetState extends ConsumerState<_AddBudgetSheet> {
             ],
           ),
           const SizedBox(height: 24),
+          if (_saveFailure != null) ...[
+            Text(
+              _saveFailure!.userMessage(l10n),
+              key: const Key('save_error'),
+              style: const TextStyle(color: Colors.red),
+            ),
+            const SizedBox(height: 16),
+          ],
           ElevatedButton(
-            onPressed: () async {
+            onPressed: _isSaving
+                ? null
+                : () async {
               if (_selectedCategory == null) return;
               final limit = double.tryParse(
                   _limitController.text.replaceAll(',', '.'));
               if (limit == null || limit <= 0) return;
 
+              final messenger = ScaffoldMessenger.of(context);
+              setState(() {
+                _isSaving = true;
+                _saveFailure = null;
+              });
+
+              final failure =
               await ref.read(budgetProvider.notifier).createBudget(
                 categoryId: _selectedCategory!.id,
                 limit: limit,
@@ -351,15 +385,24 @@ class _AddBudgetSheetState extends ConsumerState<_AddBudgetSheet> {
                 year: _year,
               );
 
-              if (context.mounted) {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(l10n.budgetCreated),
-                    backgroundColor: Colors.blueAccent,
-                  ),
-                );
+              if (!context.mounted) return;
+
+              // Si falla, la hoja sigue abierta y conserva lo escrito.
+              if (failure != null) {
+                setState(() {
+                  _isSaving = false;
+                  _saveFailure = failure;
+                });
+                return;
               }
+
+              Navigator.pop(context);
+              messenger.showSnackBar(
+                SnackBar(
+                  content: Text(l10n.budgetCreated),
+                  backgroundColor: Colors.blueAccent,
+                ),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blueAccent,
@@ -367,7 +410,16 @@ class _AddBudgetSheetState extends ConsumerState<_AddBudgetSheet> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
-            child: Text(l10n.save, style: const TextStyle(fontSize: 16)),
+            child: _isSaving
+                ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
+            )
+                : Text(l10n.save, style: const TextStyle(fontSize: 16)),
           ),
         ],
       ),

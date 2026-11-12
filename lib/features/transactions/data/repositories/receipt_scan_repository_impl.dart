@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fpdart/fpdart.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/logging/app_logger.dart';
+import '../../../../core/network/dio_failure_mapper.dart';
 import '../../domain/entities/receipt_scan_entity.dart';
 import '../../domain/repositories/i_receipt_scan_repository.dart';
 import '../../data/datasources/ocr_remote_datasource.dart';
@@ -27,7 +28,7 @@ class ReceiptScanRepositoryImpl implements IReceiptScanRepository {
       );
     } catch (e, st) {
       AppLogger.error('ReceiptScanRepositoryImpl.scanReceipt', e, st);
-      return left(Failure.server(message: e.toString()));
+      return left(mapToFailure(e));
     }
   }
 }
