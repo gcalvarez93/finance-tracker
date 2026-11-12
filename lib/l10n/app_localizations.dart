@@ -655,6 +655,54 @@ abstract class AppLocalizations {
   /// In es, this message translates to:
   /// **'Hacer foto'**
   String get takePhoto;
+
+  /// Error de red
+  ///
+  /// In es, this message translates to:
+  /// **'Sin conexión. Comprueba tu red e inténtalo de nuevo.'**
+  String get errorNetwork;
+
+  /// Tiempo de espera agotado
+  ///
+  /// In es, this message translates to:
+  /// **'El servidor tardó demasiado en responder. Inténtalo de nuevo.'**
+  String get errorTimeout;
+
+  /// Error del servidor
+  ///
+  /// In es, this message translates to:
+  /// **'Hubo un problema en el servidor. Inténtalo de nuevo más tarde.'**
+  String get errorServer;
+
+  /// Sesión no válida o sin permisos
+  ///
+  /// In es, this message translates to:
+  /// **'Tu sesión no es válida. Vuelve a iniciar sesión.'**
+  String get errorSession;
+
+  /// Recurso no encontrado
+  ///
+  /// In es, this message translates to:
+  /// **'No se encontró lo que buscas. Puede que ya no exista.'**
+  String get errorNotFound;
+
+  /// Datos rechazados por el servidor
+  ///
+  /// In es, this message translates to:
+  /// **'Los datos no son válidos. Revísalos e inténtalo de nuevo.'**
+  String get errorRejected;
+
+  /// Error desconocido
+  ///
+  /// In es, this message translates to:
+  /// **'Ocurrió un error inesperado. Inténtalo de nuevo.'**
+  String get errorUnknown;
+
+  /// Botón reintentar
+  ///
+  /// In es, this message translates to:
+  /// **'Reintentar'**
+  String get actionRetry;
 }
 
 class _AppLocalizationsDelegate

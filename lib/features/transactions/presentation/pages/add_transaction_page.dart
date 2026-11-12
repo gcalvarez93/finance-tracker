@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../../core/errors/failure_messages.dart';
+import '../../../../core/errors/failures.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../categories/domain/entities/category_entity.dart';
 import '../../../categories/presentation/providers/category_provider.dart';
@@ -23,6 +25,8 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
   DateTime _date = DateTime.now();
   CategoryEntity? _selectedCategory;
   bool _isScanning = false;
+  bool _isSaving = false;
+  Failure? _saveFailure;
 
   @override
   void dispose() {
@@ -116,7 +120,15 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
   }
 
   Future<void> _save() async {
+    if (_isSaving) return;
     if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      _isSaving = true;
+      _saveFailure = null;
+    });
+
+    final failure =
     await ref.read(transactionProvider.notifier).createTransaction(
       amount: double.parse(_amountController.text.replaceAll(',', '.')),
       type: _type,
@@ -124,7 +136,19 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
       description: _descriptionController.text.trim(),
       date: _date,
     );
-    if (mounted) Navigator.pop(context);
+
+    if (!mounted) return;
+
+    if (failure == null) {
+      Navigator.pop(context);
+      return;
+    }
+
+    // El formulario sigue abierto y conserva lo que escribió el usuario.
+    setState(() {
+      _isSaving = false;
+      _saveFailure = failure;
+    });
   }
 
   @override
@@ -328,16 +352,49 @@ class _AddTransactionPageState extends ConsumerState<AddTransactionPage> {
                 ),
                 const SizedBox(height: 32),
 
+                if (_saveFailure != null) ...[
+                  Container(
+                    key: const Key('save_error'),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade50,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.error_outline, color: Colors.red),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            _saveFailure!.userMessage(l10n),
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
+
                 // Botón guardar
                 ElevatedButton(
-                  onPressed: _save,
+                  onPressed: _isSaving ? null : _save,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _type == 'income' ? Colors.green : Colors.red,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
-                  child: Text(l10n.save, style: const TextStyle(fontSize: 16)),
+                  child: _isSaving
+                      ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                      : Text(l10n.save, style: const TextStyle(fontSize: 16)),
                 ),
               ],
             ),

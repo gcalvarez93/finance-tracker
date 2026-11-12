@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:open_file/open_file.dart';
+import '../../../../core/errors/failure_messages.dart';
+import '../../../../core/widgets/error_retry_view.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/export_format.dart';
 import '../providers/transaction_provider.dart';
@@ -17,6 +19,9 @@ class TransactionsPage extends ConsumerStatefulWidget {
 
 class _TransactionsPageState extends ConsumerState<TransactionsPage> {
   bool _isExporting = false;
+
+  Future<void> _reload() =>
+      ref.read(transactionProvider.notifier).loadTransactions();
 
   Future<void> _export(ExportFormat format) async {
     setState(() => _isExporting = true);
@@ -82,6 +87,24 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
     final l10n = AppLocalizations.of(context)!;
     final transactionState = ref.watch(transactionProvider);
 
+    // Un fallo con datos en pantalla (recarga o borrado) conserva la lista y
+    // se avisa con un SnackBar.
+    ref.listen<TransactionState>(transactionProvider, (previous, next) {
+      if (next is! TransactionLoaded) return;
+      final failure = next.actionFailure;
+      if (failure == null) return;
+      if (previous is TransactionLoaded &&
+          identical(previous.actionFailure, failure)) {
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(failure.userMessage(l10n)),
+          backgroundColor: Colors.red,
+        ),
+      );
+    });
+
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
@@ -107,22 +130,22 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
       ),
       body: switch (transactionState) {
         TransactionLoading() => const Center(child: CircularProgressIndicator()),
-        TransactionLoaded(:final transactions) => transactions.isEmpty
-            ? Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.receipt_long, size: 64, color: Colors.grey),
-              const SizedBox(height: 16),
-              Text(l10n.noTransactions,
-                  style: TextStyle(color: Colors.grey.shade500, fontSize: 16)),
-            ],
-          ),
-        )
-            : RefreshIndicator(
-          onRefresh: () =>
-              ref.read(transactionProvider.notifier).loadTransactions(),
-          child: ListView.builder(
+        TransactionLoaded(:final transactions) => RefreshIndicator(
+          onRefresh: _reload,
+          child: transactions.isEmpty
+              ? _ScrollableCenter(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.receipt_long, size: 64, color: Colors.grey),
+                const SizedBox(height: 16),
+                Text(l10n.noTransactions,
+                    style: TextStyle(color: Colors.grey.shade500, fontSize: 16)),
+              ],
+            ),
+          )
+              : ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.all(16),
             itemCount: transactions.length,
             itemBuilder: (context, index) => TransactionListTile(
@@ -133,8 +156,16 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
             ),
           ),
         ),
-        TransactionError(:final message) =>
-            Center(child: Text(message, style: const TextStyle(color: Colors.red))),
+        TransactionError(:final failure) => RefreshIndicator(
+          onRefresh: _reload,
+          child: _ScrollableCenter(
+            child: ErrorRetryView(
+              message: failure.userMessage(l10n),
+              retryLabel: l10n.actionRetry,
+              onRetry: _reload,
+            ),
+          ),
+        ),
         _ => const SizedBox(),
       },
       floatingActionButton: FloatingActionButton(
@@ -144,6 +175,26 @@ class _TransactionsPageState extends ConsumerState<TransactionsPage> {
         ),
         backgroundColor: Colors.blueAccent,
         child: const Icon(Icons.add, color: Colors.white),
+      ),
+    );
+  }
+}
+
+/// Centra su contenido y permite hacer pull-to-refresh aunque no haya lista.
+class _ScrollableCenter extends StatelessWidget {
+  const _ScrollableCenter({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) => SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+          child: Center(child: child),
+        ),
       ),
     );
   }

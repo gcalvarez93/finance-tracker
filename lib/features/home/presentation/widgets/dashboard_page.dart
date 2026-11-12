@@ -1,6 +1,8 @@
 // Path: lib/features/home/presentation/widgets/dashboard_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/errors/failure_messages.dart';
+import '../../../../core/widgets/error_retry_view.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../transactions/presentation/pages/add_transaction_page.dart';
@@ -147,8 +149,12 @@ class DashboardPage extends ConsumerWidget {
                             .map((t) => DashboardTransactionTile(transaction: t)),
                     ],
                   ),
-                  TransactionError(:final message) =>
-                      Center(child: Text(message, style: const TextStyle(color: Colors.red))),
+                  TransactionError(:final failure) => ErrorRetryView(
+                    message: failure.userMessage(l10n),
+                    retryLabel: l10n.actionRetry,
+                    onRetry: () =>
+                        ref.read(transactionProvider.notifier).loadTransactions(),
+                  ),
                   _ => const SizedBox(),
                 },
               ],

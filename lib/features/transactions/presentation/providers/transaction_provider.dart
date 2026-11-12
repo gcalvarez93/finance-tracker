@@ -1,5 +1,8 @@
 // Path: lib/features/transactions/presentation/providers/transaction_provider.dart
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/errors/failures.dart';
 import '../../../../core/network/dio_client.dart';
 import '../../data/datasources/export_remote_datasource.dart';
 import '../../data/datasources/ocr_remote_datasource.dart';
@@ -57,11 +60,21 @@ class TransactionLoading extends TransactionState {}
 class TransactionLoaded extends TransactionState {
   final List<TransactionEntity> transactions;
   final double balance;
-  TransactionLoaded({required this.transactions, required this.balance});
+
+  /// Fallo de la última operación (recarga o borrado) que NO invalida los
+  /// datos mostrados. La UI lo avisa con un SnackBar y conserva la lista.
+  final Failure? actionFailure;
+
+  TransactionLoaded({
+    required this.transactions,
+    required this.balance,
+    this.actionFailure,
+  });
 }
+/// Fallo de carga SIN datos que mostrar (pantalla de error con reintento).
 class TransactionError extends TransactionState {
-  final String message;
-  TransactionError(this.message);
+  final Failure failure;
+  TransactionError(this.failure);
 }
 
 // Notifier
@@ -72,25 +85,55 @@ class TransactionNotifier extends StateNotifier<TransactionState> {
     loadTransactions();
   }
 
+  /// Carga (o recarga) movimientos y balance.
+  ///
+  /// Si ya hay datos en pantalla se conservan mientras se recarga y, si la
+  /// recarga falla, siguen visibles con [TransactionLoaded.actionFailure].
+  /// Solo se pasa a [TransactionLoading] o [TransactionError] cuando no hay
+  /// nada que enseñar.
   Future<void> loadTransactions() async {
-    state = TransactionLoading();
+    if (state is! TransactionLoaded) state = TransactionLoading();
 
     final transactionsResult = await _repository.getTransactions();
     final balanceResult = await _repository.getBalance();
 
-    transactionsResult.fold(
-          (failure) => state = TransactionError(failure.toString()),
-          (transactions) => balanceResult.fold(
-            (failure) => state = TransactionError(failure.toString()),
-            (balance) => state = TransactionLoaded(
-          transactions: transactions,
-          balance: balance,
-        ),
-      ),
+    final Failure? failure = transactionsResult.fold<Failure?>(
+          (f) => f,
+          (_) => balanceResult.fold<Failure?>((f) => f, (_) => null),
+    );
+
+    final current = state;
+    if (failure != null) {
+      state = current is TransactionLoaded
+          ? TransactionLoaded(
+        transactions: current.transactions,
+        balance: current.balance,
+        actionFailure: failure,
+      )
+          : TransactionError(failure);
+      return;
+    }
+
+    transactionsResult.fold<void>(
+          (_) {},
+          (transactions) {
+        balanceResult.fold<void>(
+              (_) {},
+              (balance) {
+            state = TransactionLoaded(
+              transactions: transactions,
+              balance: balance,
+            );
+          },
+        );
+      },
     );
   }
 
-  Future<void> createTransaction({
+  /// Crea un movimiento. Devuelve `null` si todo fue bien o el [Failure] si
+  /// falló. No toca el estado de la lista en caso de fallo: el formulario
+  /// decide cómo mostrar el error y conserva lo que escribió el usuario.
+  Future<Failure?> createTransaction({
     required double amount,
     required String type,
     required String categoryId,
@@ -105,17 +148,38 @@ class TransactionNotifier extends StateNotifier<TransactionState> {
       date: date,
     );
 
-    result.fold(
-          (failure) => state = TransactionError(failure.toString()),
-          (_) => loadTransactions(),
+    return result.fold<Failure?>(
+          (failure) => failure,
+          (_) {
+        unawaited(loadTransactions());
+        return null;
+      },
     );
   }
 
+  /// Borra con eliminación optimista: el movimiento desaparece al instante y,
+  /// si el servidor falla, se restaura la lista y se avisa del error.
   Future<void> deleteTransaction(String id) async {
+    final current = state;
+    if (current is! TransactionLoaded) return;
+
+    state = TransactionLoaded(
+      transactions: current.transactions.where((t) => t.id != id).toList(),
+      balance: current.balance,
+    );
+
     final result = await _repository.deleteTransaction(id);
     result.fold(
-          (failure) => state = TransactionError(failure.toString()),
-          (_) => loadTransactions(),
+          (failure) {
+        state = TransactionLoaded(
+          transactions: current.transactions,
+          balance: current.balance,
+          actionFailure: failure,
+        );
+      },
+          (_) {
+        unawaited(loadTransactions());
+      },
     );
   }
 }

@@ -9,6 +9,8 @@ import '../../helpers/fakes.dart';
 void main() {
   late FakeTransactionRepository repository;
 
+  const boom = Failure.server(message: 'boom');
+
   setUp(() => repository = FakeTransactionRepository());
 
   Future<TransactionNotifier> buildNotifier() async {
@@ -17,76 +19,139 @@ void main() {
     return notifier;
   }
 
+  Future<TransactionNotifier> buildLoadedNotifier() async {
+    repository
+      ..transactionsResult = right([testTransaction])
+      ..balanceResult = right(87.5);
+    return buildNotifier();
+  }
+
   group('carga inicial', () {
     test('expone movimientos y balance cuando todo va bien', () async {
-      repository
-        ..transactionsResult = right([testTransaction])
-        ..balanceResult = right(87.5);
-
-      final notifier = await buildNotifier();
+      final notifier = await buildLoadedNotifier();
 
       final state = notifier.state;
       expect(state, isA<TransactionLoaded>());
       state as TransactionLoaded;
       expect(state.transactions, [testTransaction]);
       expect(state.balance, 87.5);
+      expect(state.actionFailure, isNull);
     });
 
-    test('pasa a error si falla la lista de movimientos', () async {
-      repository.transactionsResult =
-          left(const Failure.server(message: 'boom'));
+    test('pasa a error con el Failure si falla la lista de movimientos',
+            () async {
+          repository.transactionsResult = left(boom);
+
+          final notifier = await buildNotifier();
+
+          final state = notifier.state;
+          expect(state, isA<TransactionError>());
+          expect((state as TransactionError).failure, boom);
+        });
+
+    test('pasa a error con el Failure si falla el balance', () async {
+      const offline = Failure.network(message: 'sin red');
+      repository.balanceResult = left(offline);
 
       final notifier = await buildNotifier();
 
-      expect(notifier.state, isA<TransactionError>());
+      final state = notifier.state;
+      expect(state, isA<TransactionError>());
+      expect((state as TransactionError).failure, offline);
     });
 
-    test('pasa a error si falla el balance', () async {
-      repository.balanceResult = left(const Failure.network(message: 'sin red'));
-
+    test('desde el error, reintentar vuelve a cargar los datos', () async {
+      repository.transactionsResult = left(boom);
       final notifier = await buildNotifier();
-
       expect(notifier.state, isA<TransactionError>());
+
+      repository.transactionsResult = right([testTransaction]);
+      await notifier.loadTransactions();
+
+      expect(notifier.state, isA<TransactionLoaded>());
+    });
+  });
+
+  group('recarga con datos en pantalla', () {
+    test('no pasa por Loading: la lista se mantiene mientras recarga',
+            () async {
+          final notifier = await buildLoadedNotifier();
+          final states = <TransactionState>[];
+          final remove = notifier.addListener(states.add, fireImmediately: false);
+
+          await notifier.loadTransactions();
+          remove();
+
+          expect(states.whereType<TransactionLoading>(), isEmpty);
+          expect(states.last, isA<TransactionLoaded>());
+        });
+
+    test('si la recarga falla conserva la lista y expone el fallo', () async {
+      final notifier = await buildLoadedNotifier();
+
+      repository.transactionsResult = left(boom);
+      await notifier.loadTransactions();
+
+      final state = notifier.state;
+      expect(state, isA<TransactionLoaded>());
+      state as TransactionLoaded;
+      expect(state.transactions, [testTransaction]);
+      expect(state.balance, 87.5);
+      expect(state.actionFailure, boom);
+    });
+
+    test('una recarga correcta limpia el fallo anterior', () async {
+      final notifier = await buildLoadedNotifier();
+      repository.transactionsResult = left(boom);
+      await notifier.loadTransactions();
+
+      repository.transactionsResult = right([testTransaction]);
+      await notifier.loadTransactions();
+
+      expect((notifier.state as TransactionLoaded).actionFailure, isNull);
     });
   });
 
   group('createTransaction', () {
-    test('recarga los movimientos tras crear', () async {
+    Future<Failure?> create(TransactionNotifier notifier) =>
+        notifier.createTransaction(
+          amount: 12.5,
+          type: 'expense',
+          categoryId: 'c1',
+          description: 'Café',
+          date: DateTime(2026, 1, 10),
+        );
+
+    test('devuelve null y recarga los movimientos tras crear', () async {
       final notifier = await buildNotifier();
       final callsBefore = repository.getTransactionsCalls;
 
-      await notifier.createTransaction(
-        amount: 12.5,
-        type: 'expense',
-        categoryId: 'c1',
-        description: 'Café',
-        date: DateTime(2026, 1, 10),
-      );
+      final failure = await create(notifier);
       await pumpEventQueue();
 
+      expect(failure, isNull);
       expect(repository.getTransactionsCalls, callsBefore + 1);
       expect(notifier.state, isA<TransactionLoaded>());
     });
 
-    test('pasa a error si el repositorio falla', () async {
-      repository.createResult = left(const Failure.server(message: 'boom'));
-      final notifier = await buildNotifier();
+    test('si falla devuelve el Failure y NO toca la lista', () async {
+      repository.createResult = left(boom);
+      final notifier = await buildLoadedNotifier();
+      final stateBefore = notifier.state;
+      final callsBefore = repository.getTransactionsCalls;
 
-      await notifier.createTransaction(
-        amount: 1,
-        type: 'expense',
-        categoryId: 'c1',
-        description: 'x',
-        date: DateTime(2026, 1, 10),
-      );
+      final failure = await create(notifier);
+      await pumpEventQueue();
 
-      expect(notifier.state, isA<TransactionError>());
+      expect(failure, boom);
+      expect(identical(notifier.state, stateBefore), isTrue);
+      expect(repository.getTransactionsCalls, callsBefore);
     });
   });
 
   group('deleteTransaction', () {
     test('borra por id y recarga', () async {
-      final notifier = await buildNotifier();
+      final notifier = await buildLoadedNotifier();
       final callsBefore = repository.getTransactionsCalls;
 
       await notifier.deleteTransaction('t1');
@@ -96,12 +161,26 @@ void main() {
       expect(repository.getTransactionsCalls, callsBefore + 1);
     });
 
-    test('pasa a error si el borrado falla', () async {
-      repository.deleteResult = left(const Failure.server(message: 'boom'));
+    test('si el borrado falla restaura la lista y expone el fallo', () async {
+      repository.deleteResult = left(boom);
+      final notifier = await buildLoadedNotifier();
+
+      await notifier.deleteTransaction('t1');
+
+      final state = notifier.state;
+      expect(state, isA<TransactionLoaded>());
+      state as TransactionLoaded;
+      expect(state.transactions, [testTransaction]);
+      expect(state.actionFailure, boom);
+    });
+
+    test('sin datos cargados no hace nada', () async {
+      repository.transactionsResult = left(boom);
       final notifier = await buildNotifier();
 
       await notifier.deleteTransaction('t1');
 
+      expect(repository.deletedId, isNull);
       expect(notifier.state, isA<TransactionError>());
     });
   });
