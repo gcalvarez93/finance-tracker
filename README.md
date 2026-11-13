@@ -94,7 +94,7 @@ feature/
 - **Clean Architecture per feature.** Each feature has its own `data / domain / presentation`. The domain layer is plain Dart with no Flutter, Dio or Firebase imports, so business rules can be tested without a device.
 - **Riverpod with `StateNotifier` and sealed states.** Each screen state (`Loading`, `Loaded`, `Error`) is an explicit type, so the UI cannot read data that is not there. The providers are the single place where concrete implementations are wired, which also makes them easy to replace in tests.
 - **`Either<Failure, T>` instead of exceptions.** Repositories catch infrastructure errors, log the technical detail with `AppLogger` and return a typed `Failure` (`network`, `timeout`, `server`, `auth`, `notFound`, `rejected`, `unknown`) built by one central `DioException` mapper. The notifiers and pages only fold the result.
-- **User-facing errors are localized, never technical.** Pages turn a `Failure` into an ARB string (es/en) and never show the raw message. Forms stay open on failure and keep what the user typed; a failed reload with data on screen keeps the list and shows a SnackBar; a failed first load shows the reason with a retry button.
+- **User-facing errors are localized, never technical.** Pages turn a `Failure` into an ARB string (es/en) and never show the raw message (authentication is the exception, see limitations). Forms stay open on failure and keep what the user typed; a failed reload with data on screen keeps the list and shows a SnackBar; a failed first load shows the reason with a retry button.
 - **Freezed for entities and failures.** Immutable values with equality for free, and a sealed `Failure` that forces exhaustive handling.
 - **Use cases only where they add something.** Auth, profile, receipt scan and export have use cases. Plain CRUD (transactions, categories, budgets) goes from the notifier straight to the repository to avoid empty pass-through classes. The trade-off is that the rule is not uniform across features.
 - **Shared .NET 10 API.** Business rules and OCR live on the server; the app sends the Firebase ID token through a Dio client. One backend serves all the apps in this portfolio.
@@ -121,10 +121,11 @@ Deliberate trade-offs, not oversights:
 
 - **No session renewal on API 401/403.** The app shows a "session no longer valid" message, but it does not sign the user out or retry. Firebase renews the ID token automatically before each request, so the real case would be a server-side rejection.
 - **No `sendTimeout`.** The Dio client sets connect (30 s) and receive (60 s) timeouts only, so a stalled upload (receipt scan) is not cut by a send timeout.
-- **Focused test coverage.** Transactions and the Dio error mapping are covered; the budgets, categories and profile notifiers are not.
+- **Focused test coverage.** Transactions, the auth notifier, the export and receipt-scan repositories and the Dio error mapping are covered; the budgets, categories and profile notifiers are not, and there are no widget tests.
 - **Retry is not everywhere.** Transactions, the dashboard, budgets, categories and notification settings offer "Retry" when the first load fails. Export and receipt scan only show a generic message. A failed pull-to-refresh on the dashboard keeps the previous data without a message.
-- **Auth uses Firebase's own messages.** Login and registration errors do not go through the typed mapper.
+- **Authentication errors are not localized.** Login and registration show the message Firebase returns (in English, never the error code) and do not go through the Dio mapper. Any other failure falls back to a fixed Spanish text ("Error desconocido"), hardcoded rather than taken from the ARB files, because the auth state stores a `String` instead of the `Failure`.
 - **Some UI text is still hardcoded in Spanish** (month names in budgets, default user name).
+- **The error core is copied, not shared.** `mapToFailure`, `Failure`, the user messages and `ErrorRetryView` also exist in habit-tracker; there is no shared package, so a change has to be applied in both.
 
 ---
 
@@ -212,7 +213,7 @@ Aplicación de gestión de finanzas personales desarrollada como parte del portf
 - **Clean Architecture por feature.** Cada feature tiene su propio `data / domain / presentation`. La capa de dominio es Dart puro, sin imports de Flutter, Dio ni Firebase, así que las reglas de negocio se prueban sin dispositivo.
 - **Riverpod con `StateNotifier` y estados sellados.** Cada estado de pantalla (`Loading`, `Loaded`, `Error`) es un tipo explícito, y la UI no puede leer datos que no existen. Los providers son el único sitio donde se enlazan las implementaciones concretas, lo que también facilita sustituirlas en los tests.
 - **`Either<Failure, T>` en lugar de excepciones.** Los repositorios capturan los errores de infraestructura, registran el detalle técnico con `AppLogger` y devuelven un `Failure` tipado (`network`, `timeout`, `server`, `auth`, `notFound`, `rejected`, `unknown`) construido por un único mapper de `DioException`. Los notifiers y las páginas solo procesan el resultado.
-- **Los errores que ve el usuario están localizados, nunca son técnicos.** Las páginas convierten un `Failure` en un texto ARB (es/en) y no muestran el mensaje en bruto. Los formularios siguen abiertos si falla y conservan lo escrito; si una recarga falla con datos en pantalla, se mantiene la lista y sale un SnackBar; si falla la primera carga, se muestra el motivo con un botón de reintento.
+- **Los errores que ve el usuario están localizados, nunca son técnicos.** Las páginas convierten un `Failure` en un texto ARB (es/en) y no muestran el mensaje en bruto (la autenticación es la excepción, ver limitaciones). Los formularios siguen abiertos si falla y conservan lo escrito; si una recarga falla con datos en pantalla, se mantiene la lista y sale un SnackBar; si falla la primera carga, se muestra el motivo con un botón de reintento.
 - **Freezed para entidades y fallos.** Valores inmutables con igualdad gratis y un `Failure` sellado que obliga a tratar todos los casos.
 - **Casos de uso solo donde aportan.** Auth, perfil, escaneo de tickets y exportación tienen casos de uso. El CRUD simple (movimientos, categorías, presupuestos) va del notifier directo al repositorio, para evitar clases que solo reenvían la llamada. El inconveniente es que la regla no es uniforme entre features.
 - **API compartida en .NET 10.** Las reglas de negocio y el OCR viven en el servidor; la app envía el token de Firebase mediante un cliente Dio. Un solo backend sirve a todas las apps de este portfolio.
@@ -239,10 +240,11 @@ Decisiones asumidas, no descuidos:
 
 - **Sin renovación de sesión ante 401/403 de la API.** La app muestra "tu sesión no es válida", pero no cierra sesión ni reintenta. Firebase renueva el ID token automáticamente antes de cada petición, así que el caso real sería un rechazo del servidor.
 - **Sin `sendTimeout`.** El cliente Dio solo define timeouts de conexión (30 s) y de recepción (60 s), así que una subida atascada (escaneo de ticket) no se corta por envío.
-- **Cobertura de tests focalizada.** Están cubiertos los movimientos y el mapeo de errores de Dio; los notifiers de presupuestos, categorías y perfil no.
+- **Cobertura de tests focalizada.** Están cubiertos los movimientos, el notifier de auth, los repositorios de exportación y de escaneo de tickets y el mapeo de errores de Dio; los notifiers de presupuestos, categorías y perfil no, y no hay tests de widgets.
 - **El reintento no está en todas partes.** Movimientos, dashboard, presupuestos, categorías y ajustes de notificaciones ofrecen "Reintentar" si falla la primera carga. Exportación y escaneo de tickets solo muestran un mensaje genérico. Un pull-to-refresh fallido en el dashboard conserva los datos anteriores sin avisar.
-- **Auth usa los mensajes propios de Firebase.** Los errores de login y registro no pasan por el mapper tipado.
+- **Los errores de autenticación no están localizados.** Login y registro muestran el mensaje que devuelve Firebase (en inglés, nunca el código de error) y no pasan por el mapper de Dio. Cualquier otro fallo cae en un texto fijo en español ("Error desconocido"), escrito en el código y no en los ARB, porque el estado de auth guarda un `String` en lugar del `Failure`.
 - **Parte del texto de la interfaz sigue fijo en español** (nombres de los meses en presupuestos, nombre de usuario por defecto).
+- **El núcleo de errores está copiado, no compartido.** `mapToFailure`, `Failure`, los mensajes de usuario y `ErrorRetryView` existen también en habit-tracker; no hay un paquete común, así que un cambio hay que aplicarlo en los dos.
 
 ---
 
