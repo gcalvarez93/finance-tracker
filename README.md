@@ -124,6 +124,7 @@ Deliberate trade-offs, not oversights:
 - **Focused test coverage.** Transactions, the auth notifier, the export and receipt-scan repositories and the Dio error mapping are covered; the budgets, categories and profile notifiers are not, and there are no widget tests.
 - **Retry is not everywhere.** Transactions, the dashboard, budgets, categories and notification settings offer "Retry" when the first load fails. Export and receipt scan only show a generic message. A failed pull-to-refresh on the dashboard keeps the previous data without a message.
 - **Authentication errors are not localized.** Login and registration show the message Firebase returns (in English, never the error code) and do not go through the Dio mapper. Any other failure falls back to a fixed Spanish text ("Error desconocido"), hardcoded rather than taken from the ARB files, because the auth state stores a `String` instead of the `Failure`.
+- **Cancelling Google sign-in shows an error.** If the user closes the Google window, the datasource throws a generic exception that ends up as the fixed "Error desconocido" message, instead of silently returning to the login screen.
 - **Some UI text is still hardcoded in Spanish** (month names in budgets, default user name).
 - **The error core is copied, not shared.** `mapToFailure`, `Failure`, the user messages and `ErrorRetryView` also exist in habit-tracker; there is no shared package, so a change has to be applied in both.
 
@@ -243,6 +244,7 @@ Decisiones asumidas, no descuidos:
 - **Cobertura de tests focalizada.** Están cubiertos los movimientos, el notifier de auth, los repositorios de exportación y de escaneo de tickets y el mapeo de errores de Dio; los notifiers de presupuestos, categorías y perfil no, y no hay tests de widgets.
 - **El reintento no está en todas partes.** Movimientos, dashboard, presupuestos, categorías y ajustes de notificaciones ofrecen "Reintentar" si falla la primera carga. Exportación y escaneo de tickets solo muestran un mensaje genérico. Un pull-to-refresh fallido en el dashboard conserva los datos anteriores sin avisar.
 - **Los errores de autenticación no están localizados.** Login y registro muestran el mensaje que devuelve Firebase (en inglés, nunca el código de error) y no pasan por el mapper de Dio. Cualquier otro fallo cae en un texto fijo en español ("Error desconocido"), escrito en el código y no en los ARB, porque el estado de auth guarda un `String` en lugar del `Failure`.
+- **Cancelar el inicio de sesión con Google muestra un error.** Si el usuario cierra la ventana de Google, el datasource lanza una excepción genérica que acaba en el mensaje fijo «Error desconocido», en lugar de volver al login sin avisar.
 - **Parte del texto de la interfaz sigue fijo en español** (nombres de los meses en presupuestos, nombre de usuario por defecto).
 - **El núcleo de errores está copiado, no compartido.** `mapToFailure`, `Failure`, los mensajes de usuario y `ErrorRetryView` existen también en habit-tracker; no hay un paquete común, así que un cambio hay que aplicarlo en los dos.
 
